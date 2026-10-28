@@ -181,6 +181,15 @@ Releases page of github.com/TAK-Product-Center/atak-civ).
    new release, raise `takStaticVersion` in `gradle.properties` (1.0 = 10000,
    1.1 = 10100), or Android won't install it as an update.
 
+To test in an older developer ATAK, build for that version's plugin API
+without editing anything, e.g. for the 5.5.1 developer build (whose SDK
+template uses 5.5.0):
+
+    ./gradlew assembleCivDebug -PatakVersion=5.5.0
+
+A plugin built for a newer API than the ATAK it's loaded into is rejected, so
+a 5.6.0 build won't load in 5.5.1. Release builds keep the 5.6.0 default.
+
 APKs land in `app/build/outputs/apk/civ/`. Your own builds are signed with the
 SDK's development key, so to test one, install the SDK's `atak.apk` (the
 developer build, which shows "DEVELOPER BUILD" in red) on a spare device. It
