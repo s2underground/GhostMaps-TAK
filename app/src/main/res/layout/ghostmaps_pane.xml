@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="6dp">
+
+    <!-- tabs + refresh -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/tab_latest"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:text="@string/tab_latest"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/tab_browse"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:text="@string/tab_browse"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/tab_installed"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1.3"
+            android:text="@string/tab_installed"
+            android:textSize="14sp" />
+
+        <FrameLayout
+            android:layout_width="44dp"
+            android:layout_height="44dp">
+
+            <ImageButton
+                android:id="@+id/refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/refresh"
+                android:src="@android:drawable/ic_popup_sync" />
+
+            <ProgressBar
+                android:id="@+id/refresh_progress"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- filter -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/filter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/filter_hint"
+            android:importantForAutofill="no"
+            android:imeOptions="actionSearch|flagNoExtractUi|flagNoFullscreen"
+            android:inputType="text|textNoSuggestions"
+            android:maxLines="1"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/filter_clear"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/clear"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- status + update all -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="4dp"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:paddingTop="2dp"
+            android:textColor="#B0B0B0"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/update_all"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:minWidth="0dp"
+            android:paddingEnd="12dp"
+            android:paddingStart="12dp"
+            android:text="@string/update_all"
+            android:textSize="13sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- browse breadcrumb -->
+    <TextView
+        android:id="@+id/breadcrumb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#22FFFFFF"
+        android:drawablePadding="6dp"
+        android:ellipsize="start"
+        android:maxLines="2"
+        android:minHeight="40dp"
+        android:gravity="center_vertical"
+        android:paddingEnd="6dp"
+        android:paddingStart="6dp"
+        android:textColor="@color/heading_yellow"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="#33FFFFFF"
+        android:dividerHeight="1dp"
+        android:fastScrollEnabled="true" />
+
+</LinearLayout>

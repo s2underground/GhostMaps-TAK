@@ -1,0 +1,1384 @@
+{
+ "sha": "9768dea25b5b9912cd243b5b3e3fd253ece687c2",
+ "tree": [
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/BaseData",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/BaseData/Demographics",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/BaseData/Demographics/USA_Census_Ethnicity_Data_2020.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "951f2bc6ed128824d08449dcef2ab612652ceae4",
+   "size": 62029299
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map/European Layers Only",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map/European Layers Only/Europe_Migration_Crisis_June_02_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "dbded2eb03fab0c70b25b278fec600db6628f013",
+   "size": 47680
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map/European Layers Only/Europe_Migration_Crisis_May_13_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "8d1bb6b22b605f0df270d05fb6208b49750ff506",
+   "size": 31655
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map/S2Underground_Border_Crisis_Map_August_17_2026_Export_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "b2343af1b2b019d024aff50608de093c65090fd8",
+   "size": 276467
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map/S2Underground_Border_Crisis_Map_August_18_2026_Export_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "1f4829ad083c967cbb4524b4249145e696f12cdb",
+   "size": 281902
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map/S2Underground_Border_Crisis_Map_August_19_2026_Export_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "0f3a6687caa53d2ad5a8c5119ba035d261f54c27",
+   "size": 285439
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map/S2Underground_Border_Crisis_Map_July_08_2026_Export_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "0e553ffdb844e0435205f1a2a9ad91f11de2ffb2",
+   "size": 274427
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map/S2Underground_Border_Crisis_Map_July_10_2026_Export_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "1a47438b071865a761049c2fa021e99913eda2d7",
+   "size": 275492
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map/S2Underground_Border_Crisis_Map_June_02_2026_Export_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "7596fb527977661d645502a8139755101bbeec4b",
+   "size": 265750
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map/S2Underground_Border_Crisis_Map_June_02_2026_Export_v2.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "8b2e8181778d6c398601327796a9d21d6b9317b3",
+   "size": 265407
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map/S2Underground_Border_Crisis_Map_June_09_2026_Export_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "ee5ba4ad6b98acc6348e9b4e1d0bc217351499ef",
+   "size": 268640
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map/S2Underground_Border_Crisis_Map_June_10_2026_Export_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "d46c903d84b51691633ef84ef9575d9ff7f6876c",
+   "size": 271704
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map/S2Underground_Border_Crisis_Map_May_20_2026_Export_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "b758afab9f4fed36ba3946a41643a7a3fac121de",
+   "size": 259272
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map/S2Underground_Border_Crisis_Map_October_5_2026_Export_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "79b064ea7cedb31815af4daabef53362cd3dcdb3",
+   "size": 254271
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map/S2Underground_Border_Crisis_Map_September_21_2026_Export_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "1aa3417861112267e90ac33d6c4f410fa50bd41a",
+   "size": 249434
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Border Crisis Map/S2Underground_Border_Crisis_Map_September_21_2026_Export_v2.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "798338b8e43a6b0cfb4ade165591134e47c483a8",
+   "size": 253398
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/30-Day Pulls",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/30-Day Pulls/Kinetic_Activities_Last_30_Days.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "a491aac9f68cd70c5a3baa564825fdeda9cc978f",
+   "size": 144414
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_August_03_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "e98c0ac5f1d0a80e96915ecc5951a852a9906ccd",
+   "size": 3392661
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_August_04_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "9973a53fca6b92f20de754a03182c5ac35dc2dbd",
+   "size": 3392697
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_August_05_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "1e5ae690abbdbd414b47d0d03724393dbf01a791",
+   "size": 3393101
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_August_06_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "819a661d512d6c1fdc54b2ecdc0b8689e4ede66e",
+   "size": 3393497
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_August_12_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "4528ea41313e323bbc84fb80f355006bac6516c4",
+   "size": 3393962
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_August_13_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "c8938182d828c67430d61d76ef2f432fc5a56c3f",
+   "size": 3394180
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_August_17_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "da5b790547b30d6de506a73129216fdb108c9312",
+   "size": 3394978
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_August_24_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "848a426c48ad0ab18dd655de828fff0a8a9c4757",
+   "size": 3397515
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_August_26_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "5758f437262238067b1a217adb5c2fe850869b95",
+   "size": 3399140
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_August_27_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "6d4e9fbde0a07e34c1899479ef671cbff0b99c1f",
+   "size": 3399272
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_July_03_2026_Export_2.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "e1acb7da2990413fb4b6d855fb24cb534e7d2041",
+   "size": 3423304
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_July_06_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "c47c244901ff30172880f0dd90f90481fb2d5045",
+   "size": 3413961
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_July_07_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "9bbbc91fb0e55d3b8e10b0430c9e50c88e37fa26",
+   "size": 3415864
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_July_08_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "5ecdf8482cc3fbb118ece807c74f329dec2f9e59",
+   "size": 3416438
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_July_20_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "36d16ad9c5b90cf58aee10000e5a0b274f6cc1b1",
+   "size": 3416821
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_July_21_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "2e9089977c2ab1ca5ab448d7d2d41c954cc44b2a",
+   "size": 3417102
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_July_23_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "f9641e5ea13b0fcbc030bf49932670911901fbfa",
+   "size": 3417206
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_July_27_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "12bf76365611b1a36414d3fa5fb3494c2f9e8e0f",
+   "size": 3417539
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_July_27_2026_Export_2.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "2383aa5144af629dc01278322b101600f2c96d2c",
+   "size": 3417508
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_July_28_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "4b1f8ffc9efc2c1e27b17d870476f9f5af5314ab",
+   "size": 3418934
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_October_14_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "8a8af07bf0d2d1bd0aa029781d893477da8b5ac3",
+   "size": 3406444
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_October_15_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "20e5a21d32e93d85f7a475507648da381332c80c",
+   "size": 3406977
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_October_16_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "87d914a066e7c24f2848764cf3c2a0577767186b",
+   "size": 3407412
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_October_19_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "ba9e300dd1ad3e440709d82bc2b4b7a2a2040777",
+   "size": 3408062
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_October_1_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "38c9f4bf174b5b74e3279ce7c5b16c847d6f23a6",
+   "size": 3405306
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_October_21_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "9d3b0e6af33911713866d54c8951cc322a9636fb",
+   "size": 3408252
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_October_23_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "85ee9a5105b615b60bdd2bfef8c83612bcbeee6a",
+   "size": 3408495
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_October_27_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "3ac9201df4e6ce20ef557e16fd9befb40ae3ae36",
+   "size": 3408809
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_October_2_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "0259534fbebfe520f982af5f938dbec793d56601",
+   "size": 3405503
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_October_5_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "551949897a3a4641e3c2c6efee5bf5642d7c682c",
+   "size": 3405610
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_October_6_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "9e11d63b41209cce3d1c2000a9a3e5bbac258505",
+   "size": 3405872
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_October_9_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "d1ef1995f3ec59ad06bfccdd0ef81d2baba49bdc",
+   "size": 3405997
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_01_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "78a3cdcc2d1f85b2573b9f496025c3aa6fc926a2",
+   "size": 3399770
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_02_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "bfb1ada2162ce5e01b227ecac428adccc4412e5a",
+   "size": 3400197
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_03_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "5720d8f970e8cab3d00e4c4b93170e1ba714c959",
+   "size": 3400808
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_04_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "53feaabc1a698b9ef5dca891fc57bfb02b2aac5a",
+   "size": 3416342
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_04_2026_Export_2.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "91269db42f7f6983e48d7d62b0c1022ad439bef6",
+   "size": 3400635
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_05_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "fc3e203c51748cd0768b390f6714fda7c529db49",
+   "size": 3401334
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_07_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "dd1f98e065b19ce43b34b924e0fff5998000e619",
+   "size": 3401683
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_08_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "a3df2bdffc175ae257c66b185f758c081c687258",
+   "size": 3401778
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_11_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "03a879ee0357c0f65098ba01e5a0c3d60bdff0f9",
+   "size": 3401989
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_15_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "bdaa605b04a9ab328a52c28454aa477cbcce2dbd",
+   "size": 3402127
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_16_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "f47d209934139b5ea919938f282fe6e9e5b3e927",
+   "size": 3402245
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_22_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "93c13273a6ef86ca3dbd71dfb87aeb77ebde31d6",
+   "size": 3380107
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_24_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "68ff6f156d87c697b193dd47fc8f0839de94ba44",
+   "size": 3470287
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_25_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "7208914cfb321bb47b89343ec802670e58b3b7e2",
+   "size": 3403199
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_28_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "950c9938046df308c08df3b7d533e1f7290fd829",
+   "size": 3403294
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_28_2026_Export_2.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "86f5a75b348b47f0cd305509a3e1c59859a78b89",
+   "size": 3403742
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_29_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "d5d6fc8b81b060d412fd79d5384a529efe710526",
+   "size": 3404291
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_30_2026_Export_1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "4e38fc5eb3d519156533ff26d651c8e01435c869",
+   "size": 3404574
+  },
+  {
+   "path": "ArcGIS Data for ATAK (KMZs)/Common Intelligence Picture/Master Database/S2Underground_Common_Intelligence_Picture_September_30_2026_Export_2.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "d8ac8dfaa543962b9829729212be1afac6bc5ffc",
+   "size": 3404551
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Riot Tracking 2025",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Riot Tracking 2025/California Civil Unrest 2025",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Riot Tracking 2025/California Civil Unrest 2025/Los Angeles Riots 2025",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Riot Tracking 2025/California Civil Unrest 2025/Los Angeles Riots 2025/LA Riots_June_10_2025_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "127b7f6d3d54fa80ff695b96302e51c3b1534ad8",
+   "size": 3393
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Riot Tracking 2025/California Civil Unrest 2025/Los Angeles Riots 2025/LA Riots_June_10_2025_v2.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "2667e6e3164126fcc8230f89b8b0b60ced210692",
+   "size": 4278
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Riot Tracking 2025/California Civil Unrest 2025/Los Angeles Riots 2025/LA Riots_June_10_2025_v3.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "9545ea70e38dd16ff2717388d188847d6eca2c91",
+   "size": 7369
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Riot Tracking 2025/California Civil Unrest 2025/Los Angeles Riots 2025/LA Riots_June_12_2025_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "22ccd54ad7f0ea44549a29b819f17bdc8bba2cdb",
+   "size": 6290
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Riot Tracking 2025/California Civil Unrest 2025/Los Angeles Riots 2025/LA Riots_June_8_2025_v2.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "9ad407a2bb2151bffb48ce971e2c1a771a99bb9f",
+   "size": 5907
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Riot Tracking 2025/California Civil Unrest 2025/Los Angeles Riots 2025/LA Riots_June_8_2025_v3.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "38a3451df8d4e8c81f38cf073db7c7685125e867",
+   "size": 7986
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Riot Tracking 2025/California Civil Unrest 2025/Los Angeles Riots 2025/LA Riots_June_8_2025_v4.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "0ea2eecbbe090c89eb3b7353ad39191e99668286",
+   "size": 7469
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Riot Tracking 2025/California Civil Unrest 2025/Los Angeles Riots 2025/LA Riots_June_9_2025_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "2c75d5b0164341d4502753ed0fb4eae37cec31d7",
+   "size": 9199
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Riot Tracking 2025/Colorado Civil Unrest 2025",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Riot Tracking 2025/Colorado Civil Unrest 2025/Denver Riots 2025",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Riot Tracking 2025/Colorado Civil Unrest 2025/Denver Riots 2025/Denver_Riots_June_10_2025.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "95d00d8b70a97fe1e998ec5250df13b001251538",
+   "size": 2308
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Riot Tracking 2025/Planned_Protests_June_14_2025.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "08d1bf43b4851b6fb6ae829caac738de08a0d377",
+   "size": 224707
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Texas Floods - July, 2025",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Texas Floods - July, 2025/TexasFloods_July_2025_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "247d9441e5f8513e2a9081fc22ab278a804d1154",
+   "size": 8844
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Venezuela Earthquakes June 2026",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Venezuela Earthquakes June 2026/Damage Surveys",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Venezuela Earthquakes June 2026/Damage Surveys/VenezuelaDamageSurvey_June_26_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "5837540aa7bf2e321a9ca0af4a738457a87660ee",
+   "size": 21415
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Venezuela Earthquakes June 2026/Damage Surveys/VenezuelaDamageSurvey_June_26_2026_v2.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "ddfb229e6ea89756ef562ce7f6a239dfcceeb1ba",
+   "size": 24015
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Venezuela Earthquakes June 2026/Damage Surveys/VenezuelaDamageSurvey_June_29_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "a03e061222092aab95cd474702d2130dda971c20",
+   "size": 27039
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Venezuelan Crisis 2025",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Venezuelan Crisis 2025/Venezuelan_Crisis_January_02_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "67991ea54a6739822108184677cb540541a3f184",
+   "size": 2252150
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Venezuelan Crisis 2025/Venezuelan_Crisis_January_02_2026_v2.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "26c11c748a331e28b0ac03398efb2beae5e17298",
+   "size": 21912
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Venezuelan Crisis 2025/Venezuelan_Crisis_January_03_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "695b7e4bcabc8716f142698acfbe16524059c21a",
+   "size": 22048
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Venezuelan Crisis 2025/Venezuelan_Crisis_Sep_30_2025_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "be424b685edfeb866bc8af51f7eacdf69bc1e02a",
+   "size": 2252116
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Venezuelan Crisis 2025/Venezuelan_Crisis_Sep_5_2025_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "5ee7b586e4312e0356dd741aa6c87471dc6fc4a4",
+   "size": 16023
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Venezuelan Crisis 2025/Venezuelan_Crisis_Sep_5_2025_v2.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "7cddfbf15f9ee45461b69453da871515f3e585f4",
+   "size": 21297
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Washington D.C. Crime",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Washington D.C. Crime/DC Curfew Zone_April_18_2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "6937d5d9df3ff9535ed9a495c1488394468b8095",
+   "size": 1962
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/0_Archive/Washington D.C. Crime/DC Curfew Zone_August 11_2025.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "d52f4bfa0391ecb7d25a2b4484efdaecd2623caf",
+   "size": 986
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/China IPB",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/China IPB/China_PLA_Centers_of_Gravity_July_4_2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "d645ac6306bc5d4ed1779c1381221f7848a49b0d",
+   "size": 7563
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/China IPB/China_PLA_Centers_of_Gravity_July_4_2026_v2.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "e285f562fe74af0bd3ec1eb2fd35fef016c24a6a",
+   "size": 17829
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/China IPB/China_PLA_Centers_of_Gravity_March_17_2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "24cedc9004cc171149cf1dac6cbf4f3a95cb3cbb",
+   "size": 3804
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Coeur d'Alene, Idaho Ambush - June 29, 2025",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Coeur d'Alene, Idaho Ambush - June 29, 2025/Coeur_dAlene_Idaho_Ambush_June_29_2025_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "da2ee03d373b016a7c15545133091e1a44a20a4f",
+   "size": 8568
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Cuba IPB 2026",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Cuba IPB 2026/Cuba_Master_IPB_May_20_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "02f65292cb8b94957cedea5f16cc278649cd636e",
+   "size": 14233
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Garden Grove Industrial Accident",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Garden Grove Industrial Accident/Garden Grove Evac Zone1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "8dbff4774464069d68d5dd1afede51cb5ec3c0b3",
+   "size": 2101
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Basedata",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Basedata/Global Submarine Cables.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "f94c53a6b702f935157bad21d9fca17a0de54b54",
+   "size": 356470
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Basedata/IRGCN Minefield v2.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "c7ade09318c9a1ecda0af9d9677ad211245fed72",
+   "size": 1878
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Basedata/IRGCN Minefield.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "40b4755daf34657b4903d1454508c24795396ba7",
+   "size": 879
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Basedata/Middle East Pipelines.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "78bdabcd35f3bd55db007c4ccb940ffd4b470866",
+   "size": 56365
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Basedata/Persian Gulf Critical Infrastructure v4.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "cbc50d3d932a4fe5d0bd1ca4f526f3573e2c18cb",
+   "size": 18107
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Basedata/Persian Gulf Critical Infrastructure v5.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "0cebc754fd5224e190bd0ff5710087cd9672be43",
+   "size": 19184
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Basedata/SaudiEastWestPipeline.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "855529e15743080aac052dc5a23d2fffe924bf4d",
+   "size": 11040
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Common Intelligence Picture",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Common Intelligence Picture/Iran_CIP_June_01_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "75657b7912bc9ddcddea9fee4ca2af24c9a6fa20",
+   "size": 136050
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Common Intelligence Picture/Iran_CIP_June_06_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "a90bb1f1ea5f83641108a301b9947bc13c28db49",
+   "size": 136088
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Common Intelligence Picture/Iran_CIP_October_10_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "fe533c70cd00a3d6b8bc90b188656228263c54be",
+   "size": 137076
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_August_11_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "2abf70afb83225a0103093b6eb6d29bf140aa649",
+   "size": 116833
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_August_14_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "3203e0afe9bbd549ccfdc2331a9f56b41978e14a",
+   "size": 117041
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_August_19_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "769b22c75e85ddaa24974aabcbe715adc791f41d",
+   "size": 117304
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_August_24_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "83492930b1a49155b1887555ea35722f2e68e7eb",
+   "size": 117451
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_August_5_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "a0a50846abca31bb10c1c2e695254dc4a7bce472",
+   "size": 116337
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_July_13_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "00b88efdb6a42b7cd32114561d02f101e9cadf8a",
+   "size": 110616
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_July_14_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "777036bdb987785744896ee839f626bf6666b937",
+   "size": 111386
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_July_17_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "c183ab11cde472b7c47196b1994eaaad5bf8702f",
+   "size": 112742
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_July_20_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "9f7e7952f0e1da260200aedc596b266eb70a462b",
+   "size": 113959
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_July_23_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "dcb308ca5d7f9fc37fdd1ca0beb1a5d0fe877562",
+   "size": 115825
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_July_25_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "7eb4320e1dd138d6677402342f4971b3a5f5d1d3",
+   "size": 116011
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_July_29_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "bfdd9f5f612f0d98af3dfc693487ebbcbdf39c7e",
+   "size": 116085
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_July_30_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "612b83985b098430ea99083530ddd896bc722128",
+   "size": 116334
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_July_8_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "4d8722358e85e8075f4f0abf34b1da14f66950c0",
+   "size": 109620
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_July_9_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "3ca80d1a40ba172780059a856fa719d36d2f4763",
+   "size": 109892
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_June_01_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "6ddb99009b82238d32cfbdfa8990acb6ef4c8dba",
+   "size": 101036
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_June_03_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "bb204d27e46d67c6b51a4e93fc6b78692643ef50",
+   "size": 101397
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_June_19_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "18d0cfb3e66fec4f9a96f8d4d29a205bb0aa3dd6",
+   "size": 106491
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_June_22_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "457af1e52478e6821c76cdb27a0836807da89015",
+   "size": 106791
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_June_25_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "8fce11a631f43183ac946511157df992a17bc95b",
+   "size": 107290
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_June_30_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "5badacb8bd7a4b089a4753793ab38b7fc0b4cf2e",
+   "size": 108201
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_June_5_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "c9d7d465b4b3838ea45bf6a462e15b299101dfaf",
+   "size": 101609
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_June_6_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "b0f7fe96861356a8fecfd4ac245a2a5b9528cbca",
+   "size": 101744
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_June_8_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "1f3a4ce7556d7ae8d7488e9945ee0cd1cb1578ec",
+   "size": 102106
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_October_10_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "6a1cfa72af2b96836dacdc81bbc27c9b30070e5b",
+   "size": 98081
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_October_10_2026_v2.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "871b8c6627ddf334aa55d6f6311562296a34e712",
+   "size": 124316
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_October_12_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "f240ff69c5f7f7d1a06af3c3e8ef4c919460f251",
+   "size": 124919
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_October_15_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "1a6b991a01964a8e7dd9b7559ae81366e6e6b9c8",
+   "size": 125323
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_October_5_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "e7273d5ab126ce40bd4bc294909c5915b294dfd0",
+   "size": 122612
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_October_6_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "59337cb16fd572cfd1e93c05f199cf77539291c0",
+   "size": 122940
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_October_7_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "9477d9503307d144c3fb2740d42a8f96ae9e865a",
+   "size": 124045
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_September_10_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "1d65eb84aa727dfb13b162bb8a041520e07214cc",
+   "size": 120959
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_September_11_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "bffd94df8b9b116378fded1af45895668f26ff87",
+   "size": 121422
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_September_15_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "a6299fbb58f414b623cf0ad3b47ea77764322c39",
+   "size": 121776
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_September_23_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "b0cb2d5d9c145dff29b8a96cafb82b0d36d3474d",
+   "size": 122498
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_September_7_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "564e09069edb7ef12a59a1319645898dd17ff020",
+   "size": 118424
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_September_8_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "42a7c66551b95f6bbd2c80d5f877f5a3c3721f08",
+   "size": 119112
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Iran 2026/Iran Kinetic Events/Iran_Kinetic_Events_September_9_2026_v1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "5b3f00b7e55ef1a21d00ebe4e56945bb86e8ecb0",
+   "size": 119615
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Middle East Crisis 2026",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Middle East Crisis 2026/LebanonConflictZones_April_8_2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "4153b160720f798e54ae04b824d18d55e4251507",
+   "size": 92864
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Middle East Crisis 2026/Litani_River.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "b8f747ba98e729cf8cf1217582d7db99449d93c2",
+   "size": 76199
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Middle East Crisis 2026/Middle East Master IPB_February_18_2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "123328b900e58bd06b002566959c9ac4410f0720",
+   "size": 29912
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Middle East Crisis 2026/Zahran River.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "56972f69eaec9f4693ceef94d7a0c4b6f4254614",
+   "size": 18474
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Reference Material",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Reference Material/S2U Map Icons.zip",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "6189a3178cbc76d44f63eb17ad45163897f1520c",
+   "size": 4057241
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Reno Wildfires August 24, 2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "7cca742617fb7d92203a51685b20d561207c49fc",
+   "size": 258436
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Riot Tracking 2026",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Riot Tracking 2026/Minneapolis Anti-ICE Riots_2026",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Riot Tracking 2026/Minneapolis Anti-ICE Riots_2026/MPLS_ATAK_CIP_January_14_2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "ab95d33cd53e7ab58ad7a04a93cdd865d0d83dd9",
+   "size": 5491
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Russia IPB",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Russia IPB/Russia_Centers_of_Gravity_April_8_2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "1ac701a9ac0901e6d5efc47ffbd940f34cae55bf",
+   "size": 3595
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Russia IPB/Russia_Centers_of_Gravity_July_04_2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "f8528ce752e799dc6ae4a3e0a8e9fa26fde61ae7",
+   "size": 3642
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Russia IPB/Russia_Centers_of_Gravity_July_06_2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "c135d69fdec6b5bde131156ebbb3011469b41dfa",
+   "size": 410
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Russia IPB/Russia_Centers_of_Gravity_July_06_2026_V2.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "d632d470410005082f0e26c00688a82b3a87c428",
+   "size": 15617
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Russia IPB/Russia_Centers_of_Gravity_July_10_2026_V1.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "57acadc850ddcac1bd808ba8037252a13fd85fd4",
+   "size": 15716
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Spokane Fire Disaster - August, 2026",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Spokane Fire Disaster - August, 2026/NIFC_Current_Wildfires_August_8_2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "aa5ebb1d3da9917a150d1f2232b5ecaa66f6cd10",
+   "size": 8489091
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Spokane Fire Disaster - August, 2026/NIFC_Current_Wildfires__SPOKANE_August_8_2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "b0868dfe29b4e72ad8d0b0919d89c27df5df45cd",
+   "size": 232292
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Spokane Fire Disaster - August, 2026/NIFC_Current_Wildfires__WA_August_8_2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "833183dd0b15a4a8a7c045a6f671223057af5c24",
+   "size": 1104925
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Spokane Fire Disaster - August, 2026/NIFC_Spokane_Fire_Perimeters_August_8_2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "3daf7938a87f099113bc65538c77c13c0667fd4b",
+   "size": 206695
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Spokane Fire Disaster - August, 2026/SpokaneDisasterAid_August_8_2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "602474f77de68559f13258a6e5db64f98db1fe2f",
+   "size": 4481
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/UK Migration Crisis",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/UK Migration Crisis/UK_Migration_Crisis_February_4_2026.kml",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "93797208f5d0d207a2b537dafdf913dc25cc3882",
+   "size": 545587
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/UK Migration Crisis/UK_Migration_Crisis_January_28_2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "2c81a265a3dd996e7e181176582820d67c3a6412",
+   "size": 28771
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Yemen 2026",
+   "mode": "040000",
+   "type": "tree",
+   "sha": "0000000000000000000000000000000000000000"
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Yemen 2026/Yemen FLOT.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "e0b97380b4e0758853b1fa9f82163f3a6b5cecf2",
+   "size": 135097
+  },
+  {
+   "path": "Incident Response Products for ATAK (KMZs and Documents)/Yemen 2026/Yemen FLOT_October_10_2026.kmz",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "7fd1cd6b904151a3f399b8976be71eef022a4ad1",
+   "size": 39925
+  },
+  {
+   "path": "README.md",
+   "mode": "100644",
+   "type": "blob",
+   "sha": "1534899a7da28b155366fc861ef01f097a01af1b",
+   "size": 71
+  }
+ ],
+ "truncated": false
+}

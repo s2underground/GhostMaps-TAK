@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_desc">Download, install and update S2Underground GhostMaps map data (KMZ overlays) straight from GitHub, without a TAK Server.</string>
+</resources>

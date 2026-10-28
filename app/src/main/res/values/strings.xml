@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">GhostMaps</string>
+    <!-- description -->
+    <string name="app_desc">Download, install and update S2Underground GhostMaps map data (KMZ overlays) straight from GitHub, without a TAK Server.</string>
+
+    <!-- tabs and toolbar -->
+    <string name="tab_latest">Latest</string>
+    <string name="tab_browse">Browse</string>
+    <string name="tab_installed">Installed</string>
+    <string name="tab_installed_n">Installed (%1$d)</string>
+    <string name="refresh">Check GitHub for new files</string>
+    <string name="filter_hint">Filter, e.g. iran, wildfire, border</string>
+    <string name="clear">Clear filter</string>
+    <string name="update_all">Update all</string>
+    <string name="up">Up one folder</string>
+    <string name="all_folders">All folders</string>
+
+    <!-- status line -->
+    <string name="status_loading">Getting the file list from GitHub…</string>
+    <plurals name="status_checked">
+        <item quantity="one">%1$d file on GitHub · checked %2$s</item>
+        <item quantity="other">%1$d files on GitHub · checked %2$s</item>
+    </plurals>
+    <string name="status_saved">Saved list from %1$s. %2$s</string>
+    <string name="status_no_list">%1$s</string>
+    <string name="status_truncated">GitHub sent only part of the list; some files may be missing.</string>
+    <plurals name="status_updates">
+        <item quantity="one">%d update available.</item>
+        <item quantity="other">%d updates available.</item>
+    </plurals>
+    <string name="status_up_to_date">Everything installed is up to date.</string>
+    <string name="status_nothing_installed">Nothing installed yet. Install files from Latest or Browse.</string>
+    <string name="status_no_match">No files match "%1$s".</string>
+    <string name="just_now">just now</string>
+    <string name="minutes_ago">%1$d min ago</string>
+
+    <!-- row actions -->
+    <string name="act_install">Install</string>
+    <string name="act_update">Update</string>
+    <string name="act_installed">Installed</string>
+    <string name="act_remove">Remove</string>
+    <string name="act_retry">Retry</string>
+    <string name="act_queued">Queued</string>
+    <string name="act_importing">Importing</string>
+    <string name="act_percent">%1$d%%</string>
+
+    <!-- row details -->
+    <plurals name="detail_versions">
+        <item quantity="one">%d version</item>
+        <item quantity="other">%d versions</item>
+    </plurals>
+    <plurals name="files_count">
+        <item quantity="one">%d file</item>
+        <item quantity="other">%d files</item>
+    </plurals>
+    <string name="detail_installed_older">installed: %1$s</string>
+    <string name="detail_newer">newer: %1$s</string>
+    <string name="detail_changed">changed on GitHub</string>
+    <string name="detail_superseded">newer version also installed</string>
+    <string name="detail_removed">no longer on GitHub</string>
+    <string name="detail_failed">Failed: %1$s</string>
+    <string name="undated">undated</string>
+
+    <!-- dialogs -->
+    <string name="dlg_big_title">Download %1$s?</string>
+    <string name="dlg_big_msg">%1$s is %2$s.</string>
+    <string name="dlg_metered">You\'re on a metered connection (cellular or hotspot).</string>
+    <string name="dlg_download">Download</string>
+    <string name="dlg_cancel">Cancel</string>
+    <string name="dlg_remove_title">Remove %1$s?</string>
+    <string name="dlg_remove_msg">This removes it from ATAK\'s map and deletes the file. You can install it again later.</string>
+    <string name="dlg_cancel_dl_title">Stop downloading %1$s?</string>
+    <string name="dlg_cancel_dl_msg">What\'s already downloaded is kept, so tapping Install again continues where it left off.</string>
+    <string name="dlg_stop">Stop</string>
+    <string name="dlg_keep">Keep going</string>
+    <plurals name="dlg_update_all_title">
+        <item quantity="one">Install %d update?</item>
+        <item quantity="other">Install %d updates?</item>
+    </plurals>
+    <string name="dlg_update_all_msg">Total download: %1$s. Older versions are removed once the new ones are in.</string>
+    <string name="toast_imported">GhostMaps: %1$s installed</string>
+    <string name="toast_failed">GhostMaps: %1$s failed. %2$s</string>
+</resources>
