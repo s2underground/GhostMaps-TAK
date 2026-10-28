@@ -89,4 +89,6 @@
     <string name="dlg_elsewhere_title">Already on this device</string>
     <string name="dlg_elsewhere_msg">A version of %1$s is already loaded from outside GhostMaps (for example DataSync):\n\n%2$s\n\nInstalling it here as well puts a second copy on the map. GhostMaps never changes or removes files it didn\'t install.</string>
     <string name="dlg_install_anyway">Install anyway</string>
+    <string name="diag_saved">GhostMaps diagnostics saved to %1$s</string>
+    <string name="diag_failed">Could not save diagnostics: %1$s</string>
 </resources>

@@ -123,6 +123,21 @@ final class GhostMapsPane implements GhostMapsManager.Listener {
                 GhostMapsPane.this.mgr.refresh(true);
             }
         });
+        // long-press: write a troubleshooting report for the developer
+        refresh.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                String msg;
+                try {
+                    File f = Diagnostics.write(GhostMapsPane.this.mgr);
+                    msg = plugin.getString(R.string.diag_saved, f.getAbsolutePath());
+                } catch (java.io.IOException | RuntimeException e) {
+                    msg = plugin.getString(R.string.diag_failed, String.valueOf(e.getMessage()));
+                }
+                android.widget.Toast.makeText(atak, msg, android.widget.Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
         updateAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

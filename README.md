@@ -112,8 +112,16 @@ DEVELOPER NOTES
   announced as "Finished Import" but never appear on the map); (2) even in
   place, it can delete or replace a same-named file at its default
   destination (`atak/overlays/`), which may belong to DataSync.
-- Files that build left unloaded in `atak/overlays/` are adopted when the
-  panel opens: moved into `atak/GhostMaps/` and loaded, no re-download.
+- A recorded file ATAK doesn't list as loaded (e.g. one that build left
+  sorted but unloaded in `atak/overlays/`) is handed to ATAK's KML loader
+  where it is when the panel opens, at most once per file per session. Files
+  are never moved once ATAK may reference them.
+- Troubleshooting: long-press the refresh button to write
+  `atak/GhostMaps/ghostmaps-diagnostics.txt` (installed files and whether
+  each is loaded, every file ATAK has loaded, each Overlay Manager entry and
+  whether building it fails, and recent warnings/errors from ATAK's log for
+  its own process). Nothing is sent anywhere; skim it before sharing, since
+  ATAK's log can include callsigns or server names.
 - Remove: the file's `URIContentHandler.deleteContent()` (fallback
   `ImportReceiver.remove(uri, contentType, mime)`), then the file is deleted if
   it's inside `atak/GhostMaps/`. Replaced versions are removed only after the

@@ -102,6 +102,8 @@ final class GhostMapsManager implements URIContentListener {
     private final Map<String, Job> jobs = Collections.synchronizedMap(new LinkedHashMap<String, Job>());
     /** Local paths GhostMaps is removing itself (so the delete event isn't read as the user's). */
     private final Set<String> removing = Collections.synchronizedSet(new HashSet<String>());
+    /** Files already re-requested this session (see {@link #scanDevice()}). */
+    private final Set<String> healed = new HashSet<>();
 
     private volatile GitHubSource.Listing listing;
     private volatile boolean refreshing;
@@ -236,6 +238,12 @@ final class GhostMapsManager implements URIContentListener {
     /**
      * Brings the installed list in line with the device and notes what
      * other sources have loaded. UI thread.
+     *
+     * <p>A recorded file that ATAK doesn't list as loaded (e.g. one the
+     * first test build sorted into atak/overlays without loading it) is
+     * handed to ATAK's KML loader where it is: at most once per file per
+     * ATAK session, and never by moving the file, since ATAK may still
+     * reference it by its current path.</p>
      */
     private void scanDevice() {
         List<String> mine = new ArrayList<>();
@@ -248,54 +256,20 @@ final class GhostMapsManager implements URIContentListener {
                 // deleted outside GhostMaps (Overlay Manager, file manager)
                 forget(f);
                 changed = true;
-            } else if (!Installer.isOurs(local) && !Installer.isLoaded(local)) {
-                // left in atak/overlays, never loaded, by the first test build
-                // (its import task stopped loading files after the first one)
-                changed |= adoptLegacy(f, local);
             } else if (jobs.isEmpty() && now - f.getInstalledAt() > HEAL_AFTER_MS
-                    && Installer.isOurs(local) && !Installer.isLoaded(local)) {
-                // file is there but ATAK lost track of it: ask ATAK again
+                    && !healed.contains(local.getAbsolutePath())
+                    && !Installer.isLoaded(local)) {
                 Pair<String, String> cm = Installer.kmlContentMime(local);
-                if (cm != null)
+                if (cm != null) {
+                    healed.add(local.getAbsolutePath());
+                    Log.i(TAG, "re-requesting import of " + local);
                     Installer.requestImport(local, cm.first, cm.second);
+                }
             }
         }
         otherSources = new OtherSources(Installer.loadedElsewhere(mine));
         if (changed)
             notifyChanged();
-    }
-
-    /**
-     * Moves a file the first test build left unloaded into atak/GhostMaps and
-     * loads it there. No download. UI thread.
-     */
-    private boolean adoptLegacy(InstalledFile f, File local) {
-        Pair<String, String> cm = Installer.kmlContentMime(local);
-        if (cm == null)
-            return false;
-        File dir = Installer.installDir();
-        if (!dir.isDirectory() && !dir.mkdirs())
-            return false;
-        Set<String> taken = new HashSet<>();
-        String[] present = dir.list();
-        if (present != null)
-            for (String n : present)
-                taken.add(n.toLowerCase(Locale.US));
-        File dest = new File(dir, LocalNames.unique(local.getName(), taken));
-        try {
-            if (!local.renameTo(dest)) {
-                copy(local, dest);
-                if (!local.delete())
-                    Log.w(TAG, "could not delete " + local);
-            }
-            store.put(f.withLocalPath(dest.getAbsolutePath(), cm.first, cm.second,
-                    System.currentTimeMillis()));
-        } catch (IOException e) {
-            Log.w(TAG, "could not move " + local, e);
-            return false;
-        }
-        Installer.requestImport(dest, cm.first, cm.second);
-        return true;
     }
 
     /**

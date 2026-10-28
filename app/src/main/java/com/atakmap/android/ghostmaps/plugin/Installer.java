@@ -74,10 +74,22 @@ final class Installer {
     /** True if ATAK currently has {@code f} loaded. UI thread. */
     static boolean isLoaded(File f) {
         try {
-            return URIContentManager.getInstance().getHandler(f) != null;
-        } catch (RuntimeException e) {
-            return false;
+            if (URIContentManager.getInstance().getHandler(f) != null)
+                return true;
+            // the lookup is by exact path string; compare canonical paths too
+            // (/sdcard/... vs /storage/emulated/0/...)
+            String want = f.getCanonicalPath();
+            for (URIContentHandler h : URIContentManager.getInstance().getRegisteredHandlers()) {
+                if (h instanceof FileContentHandler) {
+                    File hf = ((FileContentHandler) h).getFile();
+                    if (hf != null && hf.getCanonicalPath().equals(want))
+                        return true;
+                }
+            }
+        } catch (IOException | RuntimeException e) {
+            Log.w(TAG, "could not check whether " + f + " is loaded", e);
         }
+        return false;
     }
 
     /**
