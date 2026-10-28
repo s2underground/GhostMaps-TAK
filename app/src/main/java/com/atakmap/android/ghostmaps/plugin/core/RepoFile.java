@@ -59,14 +59,20 @@ public final class RepoFile {
     }
 
     /**
-     * Identifies the product this file is one version of: the folder plus the
-     * file name with its date and version removed, case-insensitive.
-     * "…/Iran_Kinetic_Events_October_10_2026_v2.kmz" and
-     * "…/Iran_Kinetic_Events_July_8_2026_v1.kmz" share a key.
+     * Identifies the product this file is one version of: the file name with
+     * its date and version removed, ignoring case, punctuation and folder.
+     * "Iran_Kinetic_Events_October_10_2026_v2.kmz" and
+     * "Iran Kinetic Events_July_8_2026.kmz" share a key wherever they live,
+     * so reorganizing folders never splits a product or orphans an install.
      */
     public String productKey() {
-        return folder().toLowerCase(Locale.US) + "/"
-                + parsed.getProduct().toLowerCase(Locale.US);
+        return productKey(parsed.getProduct());
+    }
+
+    /** Normalized product name: lower case, runs of non-alphanumerics → one space. */
+    public static String productKey(String productName) {
+        return productName.toLowerCase(Locale.US)
+                .replaceAll("[^a-z0-9]+", " ").trim();
     }
 
     /** True for anything under a folder named like "0_Archive" or "Archive". */

@@ -54,6 +54,21 @@ public final class InstalledStore {
         save();
     }
 
+    /** Swaps one record for another (e.g. a moved file), in one write. */
+    public synchronized void replace(String oldRepoPath, InstalledFile f) throws IOException {
+        entries.remove(oldRepoPath);
+        entries.put(f.getRepoPath(), f);
+        save();
+    }
+
+    /** The record whose local file is {@code localPath}, or null. */
+    public synchronized InstalledFile findByLocalPath(String localPath) {
+        for (InstalledFile f : entries.values())
+            if (f.getLocalPath().equals(localPath))
+                return f;
+        return null;
+    }
+
     public synchronized void remove(String repoPath) throws IOException {
         if (entries.remove(repoPath) != null)
             save();

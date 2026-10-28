@@ -76,6 +76,11 @@ public class GhostMapsPlugin implements IPlugin {
     public void onStart() {
         if (uiService != null && toolbarItem != null)
             uiService.addToolbarItem(toolbarItem);
+        // start watching ATAK's file list right away, so files removed in the
+        // Overlay Manager are noticed even if the panel is never opened
+        MapView mv = MapView.getMapView();
+        if (mv != null && pluginContext != null)
+            manager(mv);
     }
 
     @Override
@@ -101,11 +106,13 @@ public class GhostMapsPlugin implements IPlugin {
             manager = new GhostMapsManager(mapView.getContext(), dir);
             manager.addJobListener(new GhostMapsManager.JobListener() {
                 @Override
-                public void onJobDone(RepoFile file, String error) {
+                public void onJobDone(RepoFile file, String error, boolean stillLoading) {
                     String name = file.parsed().getProduct();
-                    String msg = error == null
-                            ? pluginContext.getString(R.string.toast_imported, name)
-                            : pluginContext.getString(R.string.toast_failed, name, error);
+                    String msg = error != null
+                            ? pluginContext.getString(R.string.toast_failed, name, error)
+                            : stillLoading
+                                    ? pluginContext.getString(R.string.toast_still_loading, name)
+                                    : pluginContext.getString(R.string.toast_imported, name);
                     Toast.makeText(mapView.getContext(), msg,
                             error == null ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG).show();
                 }

@@ -82,4 +82,11 @@
     <string name="dlg_update_all_msg">Total download: %1$s. Older versions are removed once the new ones are in.</string>
     <string name="toast_imported">GhostMaps: %1$s installed</string>
     <string name="toast_failed">GhostMaps: %1$s failed. %2$s</string>
+    <string name="toast_still_loading">GhostMaps: %1$s downloaded; ATAK is still loading it.</string>
+    <string name="detail_elsewhere">also loaded from another source</string>
+    <string name="detail_moved">moved on GitHub</string>
+    <string name="detail_not_loaded">not on the map yet</string>
+    <string name="dlg_elsewhere_title">Already on this device</string>
+    <string name="dlg_elsewhere_msg">A version of %1$s is already loaded from outside GhostMaps (for example DataSync):\n\n%2$s\n\nInstalling it here as well puts a second copy on the map. GhostMaps never changes or removes files it didn\'t install.</string>
+    <string name="dlg_install_anyway">Install anyway</string>
 </resources>

@@ -241,9 +241,10 @@ final class GhostMapsPane implements GhostMapsManager.Listener {
                         for (RepoFile r : cat.search(f))
                             rows.add(new Row(Kind.FILE, null, 0, r, null));
                     } else {
-                        if (!folder.isEmpty() && cat.subfolders(parent(folder)).get(folder) == null
-                                && cat.filesIn(folder).isEmpty())
-                            folder = ""; // folder vanished after a refresh
+                        // folder renamed or removed on GitHub: back up to
+                        // the nearest one that still exists
+                        while (!folder.isEmpty() && !cat.hasFolder(folder))
+                            folder = parent(folder);
                         if (!folder.isEmpty())
                             rows.add(new Row(Kind.UP, folder, 0, null, null));
                         for (Map.Entry<String, Integer> e : cat.subfolders(folder).entrySet())
@@ -496,7 +497,51 @@ final class GhostMapsPane implements GhostMapsManager.Listener {
         }
     }
 
+    /**
+     * Before installing: point out a copy already loaded from another source
+     * (DataSync etc.), then confirm large downloads.
+     */
     private void confirmThenInstall(final RepoFile f, final boolean replaceOlder) {
+        List<String> elsewhere = mgr.getOtherSources().forProduct(f);
+        if (elsewhere.isEmpty() || hasInstalledVersion(f)) {
+            confirmSizeThenInstall(f, replaceOlder);
+            return;
+        }
+        StringBuilder where = new StringBuilder();
+        for (String p : elsewhere.subList(0, Math.min(3, elsewhere.size()))) {
+            if (where.length() > 0)
+                where.append('\n');
+            where.append(shortPath(p));
+        }
+        new AlertDialog.Builder(atak)
+                .setTitle(plugin.getString(R.string.dlg_elsewhere_title))
+                .setMessage(plugin.getString(R.string.dlg_elsewhere_msg,
+                        f.parsed().getProduct(), where.toString()))
+                .setPositiveButton(plugin.getString(R.string.dlg_install_anyway),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface d, int w) {
+                                confirmSizeThenInstall(f, replaceOlder);
+                            }
+                        })
+                .setNegativeButton(plugin.getString(R.string.dlg_cancel), null)
+                .show();
+    }
+
+    private boolean hasInstalledVersion(RepoFile f) {
+        for (InstalledFile i : mgr.getStore().all())
+            if (i.asRepoFile().productKey().equals(f.productKey()))
+                return true;
+        return false;
+    }
+
+    /** "/storage/emulated/0/atak/tools/x/y.kmz" → "atak/tools/x/y.kmz". */
+    private static String shortPath(String p) {
+        int i = p.indexOf("/atak/");
+        return i >= 0 ? p.substring(i + 1) : p;
+    }
+
+    private void confirmSizeThenInstall(final RepoFile f, final boolean replaceOlder) {
         boolean metered = metered();
         long size = f.getSize();
         if (size < CONFIRM_BYTES && !(metered && size >= CONFIRM_BYTES_METERED)) {
@@ -688,6 +733,9 @@ final class GhostMapsPane implements GhostMapsManager.Listener {
             }
             if (tab != Tab.BROWSE || !filterText().isEmpty())
                 parts.add(Formats.folderName(shown.folder()));
+            if (!hasInstalledVersion(shown)
+                    && !mgr.getOtherSources().forProduct(shown).isEmpty())
+                parts.add(plugin.getString(R.string.detail_elsewhere));
             if (act == Action.UPDATE) {
                 InstalledFile older = olderInstalled(shown);
                 if (mgr.getStore().get(shown.getPath()) != null)
@@ -712,6 +760,9 @@ final class GhostMapsPane implements GhostMapsManager.Listener {
                     if (mgr.getCatalog() != null)
                         parts.add(plugin.getString(R.string.detail_removed));
                     break;
+                case MOVED:
+                    parts.add(plugin.getString(R.string.detail_moved));
+                    break;
                 default:
                     parts.add(Formats.folderName(shown.folder()));
                     break;
@@ -719,6 +770,14 @@ final class GhostMapsPane implements GhostMapsManager.Listener {
         }
         RepoFile target = targetOf(row);
         GhostMapsManager.Job job = target == null ? null : mgr.getJob(target.getPath());
+        InstalledFile rec = row.kind == Kind.INSTALLED ? row.status.installed
+                : mgr.getStore().get(shown.getPath());
+        if (job == null && rec != null && !rec.getContentType().isEmpty()
+                && !Installer.isLoaded(new File(rec.getLocalPath()))) {
+            // recorded, but ATAK doesn't list it (still parsing, or lost)
+            parts.add(0, plugin.getString(R.string.detail_not_loaded));
+            h.detail.setTextColor(Color.rgb(0xF0, 0xA0, 0x30));
+        }
         if (job != null && job.phase == GhostMapsManager.Phase.FAILED) {
             h.detail.setTextColor(Color.rgb(0xFF, 0x70, 0x70));
             h.detail.setText(plugin.getString(R.string.detail_failed, job.error));

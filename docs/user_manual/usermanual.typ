@@ -67,4 +67,14 @@ status line says when it resets.
 
 Removing a file in the Overlay Manager is fine: GhostMaps notices and lists it
 as not installed.
+
+= DataSync and other sources
+GhostMaps keeps its files in its own folder (`atak/GhostMaps`) and never
+changes or removes files it didn't install. If a map is already on the device
+from DataSync or another import, its row says "also loaded from another
+source", and installing asks first, since you'd see it twice on the map.
+
+When S2Underground reorganizes the data on GitHub (new folders, archived
+products), installed files are recognized in their new place without
+downloading them again.
 ]

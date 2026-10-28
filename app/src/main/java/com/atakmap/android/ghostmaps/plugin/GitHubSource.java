@@ -37,12 +37,13 @@ final class GitHubSource {
 
     static final String OWNER = "s2underground";
     static final String REPO = "GhostMaps";
+    /** Branch tried first; if it disappears, the repo's default branch is used. */
     static final String BRANCH = "main";
 
-    private static final String API_URL = "https://api.github.com/repos/"
-            + OWNER + "/" + REPO + "/git/trees/" + BRANCH + "?recursive=1";
-    private static final String RAW_URL = "https://raw.githubusercontent.com/"
-            + OWNER + "/" + REPO + "/" + BRANCH + "/";
+    private static final String REPO_API = "https://api.github.com/repos/"
+            + OWNER + "/" + REPO;
+    private static final String RAW_BASE = "https://raw.githubusercontent.com/"
+            + OWNER + "/" + REPO + "/";
     private static final String USER_AGENT = "GhostMaps-ATAK-plugin";
 
     private static final int CONNECT_TIMEOUT_MS = 20_000;
@@ -79,11 +80,22 @@ final class GitHubSource {
     private final File treeFile;
     private final File metaFile;
     private final File downloadDir;
+    /** Branch the saved listing came from (and downloads use). */
+    private volatile String branch;
 
     GitHubSource(File dataDir) {
         treeFile = new File(dataDir, "tree.json");
         metaFile = new File(dataDir, "tree.properties");
         downloadDir = new File(dataDir, "downloads");
+        branch = loadMeta().getProperty("branch", BRANCH);
+    }
+
+    private String treeUrl() {
+        return REPO_API + "/git/trees/" + encodePath(branch) + "?recursive=1";
+    }
+
+    private String rawUrl(String path) {
+        return RAW_BASE + encodePath(branch) + "/" + encodePath(path);
     }
 
     File getDownloadDir() {
@@ -109,11 +121,15 @@ final class GitHubSource {
      * nothing saved to fall back on.
      */
     synchronized Listing refresh() throws IOException {
+        return refresh(true);
+    }
+
+    private Listing refresh(boolean mayFindBranch) throws IOException {
         Properties meta = loadMeta();
         HttpURLConnection c = null;
         String why;
         try {
-            c = open(API_URL);
+            c = open(treeUrl());
             c.setRequestProperty("Accept", "application/vnd.github+json");
             String etag = meta.getProperty("etag");
             if (etag != null && treeFile.isFile())
@@ -151,7 +167,22 @@ final class GitHubSource {
                 saveMeta(meta);
                 return new Listing(new Catalog(r.files), now, null, r.truncated);
             }
-            if ((code == 403 || code == 429)
+            if ((code == HttpURLConnection.HTTP_NOT_FOUND || code == 409 || code == 422)
+                    && mayFindBranch) {
+                // branch renamed or deleted (or repo emptied): use whatever
+                // GitHub says the default branch is now
+                c.disconnect();
+                c = null;
+                String def = defaultBranch();
+                if (def != null && !def.equals(branch)) {
+                    branch = def;
+                    meta.setProperty("branch", def);
+                    meta.remove("etag");
+                    saveMeta(meta);
+                    return refresh(false);
+                }
+                why = "The GhostMaps repository or branch wasn't found on GitHub";
+            } else if ((code == 403 || code == 429)
                     && "0".equals(c.getHeaderField("X-RateLimit-Remaining"))) {
                 long reset = parseLong(c.getHeaderField("X-RateLimit-Reset"), 0) * 1000L;
                 why = "GitHub's hourly limit for this network was reached"
@@ -170,6 +201,25 @@ final class GitHubSource {
                 c.disconnect();
         }
         return fallback(why);
+    }
+
+    /** The repo's current default branch, or null if GitHub can't say. */
+    private static String defaultBranch() {
+        HttpURLConnection c = null;
+        try {
+            c = open(REPO_API);
+            c.setRequestProperty("Accept", "application/vnd.github+json");
+            if (c.getResponseCode() != HttpURLConnection.HTTP_OK)
+                return null;
+            String b = new org.json.JSONObject(readText(c.getInputStream()))
+                    .optString("default_branch", "");
+            return b.isEmpty() ? null : b;
+        } catch (IOException | JSONException e) {
+            return null;
+        } finally {
+            if (c != null)
+                c.disconnect();
+        }
     }
 
     /** No fresh listing and nothing saved to show instead. */
@@ -209,7 +259,7 @@ final class GitHubSource {
         }
 
         if (have < size) {
-            HttpURLConnection c = open(RAW_URL + encodePath(f.getPath()));
+            HttpURLConnection c = open(rawUrl(f.getPath()));
             try {
                 // raw transfer: compression would break byte ranges
                 c.setRequestProperty("Accept-Encoding", "identity");

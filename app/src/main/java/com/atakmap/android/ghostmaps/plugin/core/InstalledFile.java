@@ -59,6 +59,19 @@ public final class InstalledFile {
         return installedAt;
     }
 
+    /** Same install, recorded under a new repo path (file moved in the repo). */
+    public InstalledFile withRepoPath(String newRepoPath) {
+        return new InstalledFile(newRepoPath, sha, size, localPath, contentType,
+                mimeType, installedAt);
+    }
+
+    /** Same install, with its file now at {@code newLocalPath}. */
+    public InstalledFile withLocalPath(String newLocalPath, String newContentType,
+            String newMimeType, long when) {
+        return new InstalledFile(repoPath, sha, size, newLocalPath, newContentType,
+                newMimeType, when);
+    }
+
     /** The installed version viewed as a repo entry (for name parsing). */
     public RepoFile asRepoFile() {
         return new RepoFile(repoPath, sha, size);
