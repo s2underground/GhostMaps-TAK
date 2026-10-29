@@ -2,20 +2,22 @@
 <resources>
     <!-- App -->
     <string name="app_name">GhostMaps</string>
-    <!-- description -->
-    <string name="app_desc">Download, install and update S2Underground GhostMaps map data (KMZ overlays) straight from GitHub, without a TAK Server.</string>
+    <string name="app_desc">Download, install and update S2Underground GhostMaps map layers and icon sets straight from GitHub, without a TAK Server.</string>
 
     <!-- tabs and toolbar -->
     <string name="tab_latest">Latest</string>
     <string name="tab_browse">Browse</string>
     <string name="tab_installed">Installed</string>
     <string name="tab_installed_n">Installed (%1$d)</string>
-    <string name="refresh">Check GitHub for new files</string>
+    <string name="tab_selected">%1$s, selected</string>
+    <string name="refresh">Check GitHub for new files. Long-press to save a troubleshooting report.</string>
     <string name="filter_hint">Filter, e.g. iran, wildfire, border</string>
     <string name="clear">Clear filter</string>
     <string name="update_all">Update all</string>
     <string name="up">Up one folder</string>
     <string name="all_folders">All folders</string>
+    <string name="section_map_layers">Map layers</string>
+    <string name="section_icon_sets">Icon sets</string>
 
     <!-- status line -->
     <string name="status_loading">Getting the file list from GitHub…</string>
@@ -23,8 +25,7 @@
         <item quantity="one">%1$d file on GitHub · checked %2$s</item>
         <item quantity="other">%1$d files on GitHub · checked %2$s</item>
     </plurals>
-    <string name="status_saved">Saved list from %1$s. %2$s</string>
-    <string name="status_no_list">%1$s</string>
+    <string name="status_saved">Showing the list saved %1$s. %2$s.</string>
     <string name="status_truncated">GitHub sent only part of the list; some files may be missing.</string>
     <plurals name="status_updates">
         <item quantity="one">%d update available.</item>
@@ -32,21 +33,13 @@
     </plurals>
     <string name="status_up_to_date">Everything installed is up to date.</string>
     <string name="status_nothing_installed">Nothing installed yet. Install files from Latest or Browse.</string>
-    <string name="status_no_match">No files match "%1$s".</string>
+    <string name="status_no_match">No files match \"%1$s\".</string>
     <string name="just_now">just now</string>
     <string name="minutes_ago">%1$d min ago</string>
 
-    <!-- row actions -->
-    <string name="act_install">Install</string>
-    <string name="act_update">Update</string>
-    <string name="act_installed">Installed</string>
-    <string name="act_remove">Remove</string>
-    <string name="act_retry">Retry</string>
-    <string name="act_queued">Queued</string>
-    <string name="act_importing">Importing</string>
-    <string name="act_percent">%1$d%%</string>
-
     <!-- row details -->
+    <string name="kind_icon_set">Icon set</string>
+    <string name="undated">undated</string>
     <plurals name="detail_versions">
         <item quantity="one">%d version</item>
         <item quantity="other">%d versions</item>
@@ -55,40 +48,77 @@
         <item quantity="one">%d file</item>
         <item quantity="other">%d files</item>
     </plurals>
-    <string name="detail_installed_older">installed: %1$s</string>
-    <string name="detail_newer">newer: %1$s</string>
-    <string name="detail_changed">changed on GitHub</string>
-    <string name="detail_superseded">newer version also installed</string>
-    <string name="detail_removed">no longer on GitHub</string>
-    <string name="detail_failed">Failed: %1$s</string>
-    <string name="undated">undated</string>
+
+    <!-- row status (always text, never color alone) -->
+    <string name="st_on_map">On the map</string>
+    <string name="st_icons_installed">Installed in ATAK\'s icon sets</string>
+    <string name="st_loading">ATAK is loading it…</string>
+    <string name="st_not_loaded">Not on the map; tap Reload</string>
+    <string name="st_icons_adding">Adding to ATAK\'s icon sets…</string>
+    <string name="st_icons_not_added">Not in ATAK\'s icon sets; tap Add to ATAK</string>
+    <string name="st_removing">Removing…</string>
+    <string name="st_update_newer">Newer version available (installed: %1$s)</string>
+    <string name="st_update_newer_target">Update available: %1$s</string>
+    <string name="st_update_changed">Updated on GitHub</string>
+    <string name="st_superseded">Newer version %1$s is also installed; this one can be removed</string>
+    <string name="st_gone">No longer on GitHub</string>
+    <string name="st_gone_suggestion">No longer on GitHub. Similar file: %1$s</string>
+    <string name="st_unmanaged">Installed by an earlier test build outside GhostMaps\' folder; GhostMaps won\'t change it</string>
+    <string name="st_other_version">Another version is installed (%1$s)</string>
+    <string name="st_also_elsewhere">Already loaded from another source (e.g. DataSync)</string>
+    <string name="st_queued">Waiting to download</string>
+    <string name="st_downloading">Downloading %1$s</string>
+    <string name="st_installing">Installing…</string>
+    <string name="st_waiting">ATAK is loading it…</string>
+    <string name="st_failed">Failed: %1$s</string>
+
+    <!-- actions -->
+    <string name="act_install">Install</string>
+    <string name="act_update">Update</string>
+    <string name="act_retry">Retry</string>
+    <string name="act_cancel">Stop</string>
+    <string name="act_view">Show</string>
+    <string name="act_view_long">Show on map</string>
+    <string name="act_reload">Reload</string>
+    <string name="act_add_icons">Add to ATAK</string>
+    <string name="act_replace">Replace…</string>
+    <string name="act_remove">Remove</string>
+    <string name="act_forget">Forget</string>
+    <string name="act_dismiss">Dismiss</string>
+    <string name="act_installing">Installing</string>
 
     <!-- dialogs -->
+    <string name="dlg_cancel">Cancel</string>
+    <string name="dlg_download">Download</string>
     <string name="dlg_big_title">Download %1$s?</string>
     <string name="dlg_big_msg">%1$s is %2$s.</string>
     <string name="dlg_metered">You\'re on a metered connection (cellular or hotspot).</string>
-    <string name="dlg_download">Download</string>
-    <string name="dlg_cancel">Cancel</string>
     <string name="dlg_remove_title">Remove %1$s?</string>
-    <string name="dlg_remove_msg">This removes it from ATAK\'s map and deletes the file. You can install it again later.</string>
-    <string name="dlg_cancel_dl_title">Stop downloading %1$s?</string>
-    <string name="dlg_cancel_dl_msg">What\'s already downloaded is kept, so tapping Install again continues where it left off.</string>
+    <string name="dlg_remove_map_msg">This takes the layer off ATAK\'s map and deletes GhostMaps\' copy of the file. You can install it again later.</string>
+    <string name="dlg_remove_icons_msg">This removes the icon set from ATAK. Markers that use its icons fall back to ATAK\'s default icon. You can install it again later.</string>
+    <string name="dlg_stop_title">Stop downloading %1$s?</string>
+    <string name="dlg_stop_msg">What\'s already downloaded is kept, so installing it again continues where it left off.</string>
     <string name="dlg_stop">Stop</string>
     <string name="dlg_keep">Keep going</string>
     <plurals name="dlg_update_all_title">
         <item quantity="one">Install %d update?</item>
         <item quantity="other">Install %d updates?</item>
     </plurals>
-    <string name="dlg_update_all_msg">Total download: %1$s. Older versions are removed once the new ones are in.</string>
-    <string name="toast_imported">GhostMaps: %1$s installed</string>
-    <string name="toast_failed">GhostMaps: %1$s failed. %2$s</string>
-    <string name="toast_still_loading">GhostMaps: %1$s downloaded; ATAK is still loading it.</string>
-    <string name="detail_elsewhere">also loaded from another source</string>
-    <string name="detail_moved">moved on GitHub</string>
-    <string name="detail_not_loaded">not on the map yet</string>
+    <string name="dlg_update_all_msg">Total download: %1$s. Each older version is removed once its replacement is on the map.</string>
     <string name="dlg_elsewhere_title">Already on this device</string>
-    <string name="dlg_elsewhere_msg">A version of %1$s is already loaded from outside GhostMaps (for example DataSync):\n\n%2$s\n\nInstalling it here as well puts a second copy on the map. GhostMaps never changes or removes files it didn\'t install.</string>
+    <string name="dlg_elsewhere_msg">%1$s is already loaded from outside GhostMaps (for example DataSync):\n\n%2$s\n\nInstalling it here as well puts a second copy on the map. GhostMaps never changes or removes files it didn\'t install.</string>
     <string name="dlg_install_anyway">Install anyway</string>
-    <string name="diag_saved">GhostMaps diagnostics saved to %1$s</string>
-    <string name="diag_failed">Could not save diagnostics: %1$s</string>
+    <string name="dlg_replace_title">Replace with a similar file?</string>
+    <string name="dlg_replace_msg">Installed: %1$s\n(no longer on GitHub)\n\nSimilar file on GitHub: %2$s\nin %3$s\n\nGhostMaps can\'t tell for sure that this is the same map. Install it and remove the old one?</string>
+    <string name="dlg_replace">Replace</string>
+    <string name="dlg_forget_title">Forget %1$s?</string>
+    <string name="dlg_forget_msg">GhostMaps stops tracking this file but leaves it where it is (%1$s). To take it off the map, remove it in ATAK\'s Overlay Manager.</string>
+    <string name="dlg_forget">Forget</string>
+
+    <!-- notifications -->
+    <string name="toast_installed">GhostMaps: %1$s installed</string>
+    <string name="toast_still_loading">GhostMaps: %1$s downloaded; ATAK is still loading it</string>
+    <string name="toast_failed">GhostMaps: %1$s failed. %2$s</string>
+    <string name="diag_saved">GhostMaps troubleshooting report saved to %1$s</string>
+    <string name="diag_failed">Could not save the troubleshooting report: %1$s</string>
 </resources>

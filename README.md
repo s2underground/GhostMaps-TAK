@@ -3,34 +3,40 @@ _________________________________________________________________
 PURPOSE AND CAPABILITIES
 
 A data manager for S2Underground's GhostMaps map products. Browse, download,
-install and update the KMZ overlays published in the public GhostMaps
-repository (github.com/s2underground/GhostMaps) from inside ATAK, without a
-TAK Server account.
+install, update and remove the KMZ/KML overlays and icon sets published in
+the public GhostMaps repository (github.com/s2underground/GhostMaps) from
+inside ATAK, without a TAK Server account.
 
 - **Latest** lists the newest version of every product (the daily Common
   Intelligence Picture exports show once, with how many versions exist);
-  **Browse** walks the repository's folders, archive included; **Installed**
-  shows what's on the device, updates first.
-- Files are kept in GhostMaps' own folder (`atak/GhostMaps/`) and loaded
-  in place by ATAK's own importer, so they appear under Overlay Manager →
-  File Overlays and their placemarks are searchable in QuickSearch.
-- **Coexists with DataSync.** GhostMaps never copies into `atak/overlays/`
+  **Browse** walks the repository's folders, archives included; **Installed**
+  shows what's on the device, split into map layers and icon sets, with
+  anything that needs attention first.
+- **Map layers** (KMZ/KML) are kept in GhostMaps' own folder
+  (`atak/GhostMaps/`) and loaded in place by ATAK's KML importer, so they
+  appear under Overlay Manager → File Overlays like any other file.
+- **Icon sets** (ZIPs of icons, such as "S2U Map Icons.zip") are added
+  through ATAK's icon-set manager, so they show up in the point dropper's
+  icon list, not as map layers.
+- **Coexists with DataSync.** GhostMaps never writes into `atak/overlays/`
   and never changes or removes a file it didn't install. If the same map is
-  already loaded from DataSync (or the Import Manager, a data package…),
-  GhostMaps says so on the row and asks before adding a second copy.
-- **Survives reorganizing the repository.** Installed files are found again
-  after folders are renamed, files are moved or archived, or a file is
-  renamed: same contents → silently re-pointed (no download); same file name
-  or same map name → offered as an update; gone → kept and marked "no longer
-  on GitHub". A renamed default branch is followed automatically.
-- Detects updates two ways: a newer dated/numbered file of the same product
-  (`…_October_27_2026_Export_1.kmz` replaces `…_October_23_2026_Export_1.kmz`),
+  already loaded from DataSync (or the Import Manager, a data package…), the
+  row says so and GhostMaps asks before adding a second copy. An icon set
+  already in ATAK from another source is left alone.
+- **Survives reorganizing the repository.** Installed files are followed
+  through moved files, renamed folders and new archive folders without a
+  download. Updates are only offered from the same product in the same
+  folder, never from an archive. A file deleted from GitHub stays on the
+  device and is marked; a similar file, if any, is offered as a suggestion
+  that the user confirms.
+- **Updates**: a newer dated or numbered file of the same product
+  (`…_October_27_2026_Export_1.kmz` after `…_October_23_2026_Export_1.kmz`),
   or the same file changed on GitHub (e.g. `Kinetic_Activities_Last_30_Days.kmz`).
-  **Update** installs the new file, then removes the old one; **Update all**
-  does every product at once.
-- Shows each file's size and asks before large downloads (10 MB, or 2 MB on
-  a metered connection). Downloads resume after an interruption and are
-  verified against the file's git blob SHA-1 before import.
+  The old version is removed only after ATAK has loaded the new one.
+- **Safe downloads**: every file is downloaded from the exact commit the list
+  came from, resumes after an interruption, and is checked against its git
+  blob SHA-1 before ATAK sees it. Sizes are shown, and large downloads ask
+  first (10 MB, or 2 MB on a metered connection).
 - Works offline with the last saved file list.
 
 _________________________________________________________________
@@ -38,9 +44,10 @@ STATUS
 
 Version 1.0, for ATAK-CIV 5.6.0. Built with the 5.6.0 plugin template
 (Gradle 8.14.3, Android Gradle Plugin 8.13.0) against the ATAK-CIV 5.5.1.8
-SDK. Unit tests pass (48, including the repo's real Oct 28 reorganization);
-lint reports 0 errors. Device testing in progress (ATAK 5.5.1 developer
-build).
+SDK. 138 unit tests pass, including the repository's real Oct 28 and Oct 29
+reorganizations, a fake GitHub server for every network failure mode, and
+the install engine end to end against a simulated ATAK. Lint reports 0
+errors. Device testing in progress (ATAK 5.5.1 developer build).
 
 _________________________________________________________________
 POINT OF CONTACTS
@@ -52,9 +59,9 @@ PORTS REQUIRED
 
 Outbound HTTPS (443) to:
 
-- `api.github.com`: the file list (one request per check; ETag-revalidated,
-  so an unchanged list doesn't count against GitHub's limit of 60 anonymous
-  requests per hour per IP address).
+- `api.github.com`: the file list. A check costs one conditional request;
+  when nothing changed GitHub answers "304 Not Modified", which doesn't count
+  against its limit of 60 anonymous requests per hour per IP address.
 - `raw.githubusercontent.com`: the files themselves.
 
 No inbound ports. No data is sent anywhere except these requests.
@@ -84,68 +91,121 @@ resources inherited from the plugin template).
 _________________________________________________________________
 DEVELOPER NOTES
 
-- Permissions declared: `INTERNET` and `ACCESS_NETWORK_STATE` (both normal
-  permissions ATAK already holds; the second checks for a metered
-  connection before a large download). No native code.
-- Listing: GitHub's git tree API,
-  `GET /repos/s2underground/GhostMaps/git/trees/main?recursive=1`: one
-  request returns every path, size and blob SHA. The response and its ETag are
-  saved in `atak/tools/ghostmaps/`; checks are conditional
-  (`If-None-Match`), and the saved list is used when offline or rate-limited.
-  If `main` stops existing (404/409/422), the repo's `default_branch` is
-  looked up once (`GET /repos/s2underground/GhostMaps`) and remembered.
-- Downloads: `raw.githubusercontent.com/s2underground/GhostMaps/<branch>/<path>`,
-  one at a time on a background thread, with `Range` resume from
-  `atak/tools/ghostmaps/downloads/<sha>.part`. The finished file's git blob
-  SHA-1 must match the listing, or it is discarded.
-- Install: the verified file is moved to `atak/GhostMaps/<file name>` (or
-  `<name> (2).kmz` if that name is still in use by the version being
-  replaced) and loaded in place: KMZ/KML by broadcasting
+### Design
+
+The plugin is split into layers so that everything except the thin ATAK
+adapter is plain Java and unit-tested on a desktop JVM:
+
+```
+ui/       GhostMapsPane (views, dialogs) ← RowBuilder (pure: snapshot → rows, statuses, actions)
+engine/   GhostMapsEngine: install records, job queue, reconciliation; publishes immutable Snapshots
+          Platform: the only interface to ATAK (probe, import/remove layer, add/remove icon set)
+atak/     AtakPlatform, AtakEvents: the real Platform and ATAK event wiring
+net/      RepoClient: GitHub listing and verified downloads (RepoSource interface)
+core/     identity, parsing, planning and storage; no Android code
+```
+
+- **Threading.** All engine state lives on one single-threaded executor;
+  public methods only post work to it. Downloads and listing checks run on a
+  network executor and post results back. The UI receives immutable
+  `Snapshot`s on the main thread and never touches ATAK, the disk or the
+  network itself.
+- **Write-ahead install lifecycle.** Each install record moves through
+  `PLACED` (file placed in `atak/GhostMaps/`) → `IMPORT_REQUESTED` (ATAK
+  asked to load it) → `ACTIVE` (ATAK confirms it) → `REMOVING`. Each state is
+  saved before the step it describes, so a crash at any point is finished or
+  undone by the next reconciliation.
+- **Reconciliation** compares records with what ATAK actually has, on start,
+  on panel open and after ATAK's file-list and icon-set events. It never
+  acts when ATAK's state can't be read or storage is unmounted, and only
+  drops a record after the file has been missing for a 10-second grace
+  period. A layer ATAK has lost is re-requested at most once per session,
+  and only after start-up has settled and the panel has been used.
+- **Ownership.** Only files inside `atak/GhostMaps/` that GhostMaps placed
+  there are ever moved, replaced or deleted. Records from early test builds
+  that point elsewhere are marked "earlier test build" and can only be
+  forgotten (the file is left as is).
+- **Storage.** `atak/tools/ghostmaps/installed.json` (version 2; version 1 is
+  migrated) is written atomically, keeping the previous version as
+  `installed.json.bak`. If it's ever unreadable it is set aside as
+  `installed.json.corrupt-<time>`, never overwritten, the backup is used,
+  and files in GhostMaps' folder that match a published file are re-adopted
+  by content hash. (Files it can't identify are left alone, never adopted.)
+- **Before ATAK sees a file** it must match the listing's blob SHA-1, and a
+  map layer must really be a KMZ (ZIP) or KML (XML); an icon set must be a
+  ZIP of images only. An icon set whose ID ATAK already has from another
+  source, or from a different GhostMaps product, is refused.
+
+### ATAK interfaces used
+
+- **Map layers:** loaded in place by broadcasting
   `ImportExportMapComponent.ACTION_IMPORT_DATA` (content type `KML`, file
-  URI), exactly as ATAK's in-place resolver does; other types through
-  `ImportFileTask` with `FlagImportInPlace`. Success is confirmed by polling
-  `URIContentManager.getHandler(file)`. `ImportFileTask` is not used for
-  KMZ/KML: (1) when a task finishes it calls
+  URI), as ATAK's own in-place resolver does. Loaded = a `FileContentHandler`
+  for the file is registered in `URIContentManager` (canonical paths).
+  Removed with the handler's `deleteContent()` (fallback
+  `ImportReceiver.remove`); note ATAK deletes the file itself when it
+  unloads it. `ZOOM_TO_FILE_ACTION` flies the map to a layer.
+- **`ImportFileTask` is never used.** When a task finishes it calls
   `ImportExportMapComponent.cleanupResolvers()`, which detaches ATAK's
-  "file sorted → load it" listener from the shared resolvers, so in a plugin
-  only the first file of a session actually loads (later ones are moved and
-  announced as "Finished Import" but never appear on the map); (2) even in
-  place, it can delete or replace a same-named file at its default
-  destination (`atak/overlays/`), which may belong to DataSync.
-- A recorded file ATAK doesn't list as loaded (e.g. one that build left
-  sorted but unloaded in `atak/overlays/`) is handed to ATAK's KML loader
-  where it is when the panel opens, at most once per file per session. Files
-  are never moved once ATAK may reference them.
+  shared "file sorted → load it" listener, so in a plugin only the first
+  file of a session actually loads. It can also replace or delete a
+  same-named file in `atak/overlays/`, which may belong to DataSync.
+- **Icon sets:** added with the `IconsMapAdapter.ADD_ICONSET` intent
+  (`filepath`), removed with `REMOVE_ICONSET` (`iconsetUid`); presence is
+  read from `UserIconDatabase`. ATAK accepts a ZIP of images without
+  `iconset.xml` and names the set after the file, with a UID of the file's
+  SHA-256; the Import Manager's resolver requires `iconset.xml`, which is why
+  "S2U Map Icons.zip" must not go through it. Before installing, GhostMaps
+  checks the ZIP holds only images (no data packages) and that ATAK doesn't
+  already have the set from another source.
+- **Overlay Manager:** never read or modified. (An earlier diagnostics
+  feature walked its list models, which rebuilds ATAK's cached lists and
+  made entries disappear; it was removed.)
+
+### GitHub
+
+- **Listing:** `GET /repos/s2underground/GhostMaps/commits/main` with
+  `Accept: application/vnd.github.sha` and `If-None-Match` gives the current
+  commit (a 304 when unchanged). Only when the commit changed:
+  `GET /repos/…/git/trees/<commit>?recursive=1`, which returns every path,
+  size and blob SHA in one request. Both are saved in `atak/tools/ghostmaps/`
+  and used offline or when rate-limited. If `main` disappears, the repo's
+  `default_branch` is looked up and used only if it works.
+- **Downloads:** `raw.githubusercontent.com/s2underground/GhostMaps/<commit>/<path>`,
+  pinned to the listing's commit so a file changed mid-download can't be
+  spliced. Resume with `Range` from `downloads/<sha>.part` (the server's
+  `Content-Range` must match), three attempts with backoff for transient
+  errors, a free-space check, and git blob SHA-1 verification before the
+  file is used.
+
+### Identity and updates (`core/RepoEntry`, `core/UpdatePlanner`)
+
+- An installed file is matched to the listing by **exact contents** (blob
+  SHA) or **exact path**. Same contents at a new path → the record is
+  re-pointed with no download.
+- A **product** is the file name without its date and version, within its
+  **scope folder** (the folder with any archive folders removed), and of the
+  same kind. Dates in many forms are recognized ("October_27_2026",
+  "August 11_2025", "27OCT2026", "2026-10-27", "10/27/2026", "July 2025"…),
+  and versions like "v2", "Export_1" or "Export_v2".
+- **Newer** = later date, then higher version. Updates are only offered
+  within a product group and never point into an archive folder.
+- **Deleted** files are kept and marked. A same-named or same-product file
+  elsewhere is only a *suggestion*; replacing needs the user's confirmation.
+- **Update** installs exactly the file the user confirmed and, once it is
+  loaded, replaces every installed version it is the update for. **Update
+  all** does that for every pending update. A file can't be removed while
+  its own install is still running.
+
+### Other
+
+- Permissions: `INTERNET` and `ACCESS_NETWORK_STATE` (both normal
+  permissions ATAK already holds; the second detects metered connections).
+  No native code.
 - Troubleshooting: long-press the refresh button to write
-  `atak/GhostMaps/ghostmaps-diagnostics.txt` (installed files and whether
-  each is loaded, every file ATAK has loaded, each Overlay Manager entry and
-  whether building it fails, and recent warnings/errors from ATAK's log for
-  its own process). Nothing is sent anywhere; skim it before sharing, since
-  ATAK's log can include callsigns or server names.
-- Remove: the file's `URIContentHandler.deleteContent()` (fallback
-  `ImportReceiver.remove(uri, contentType, mime)`), then the file is deleted if
-  it's inside `atak/GhostMaps/`. Replaced versions are removed only after the
-  new one has loaded. Tapping an installed file sends `ZOOM_TO_FILE_ACTION`.
-- Ownership: `atak/tools/ghostmaps/installed.json` lists every file GhostMaps
-  installed (repo path, blob SHA, local path, content/MIME type). Only those
-  are ever replaced or removed. Other loaded files come from
-  `URIContentManager.getRegisteredHandlers()` and are only read, to flag
-  duplicates by map name.
-- Device sync: a `URIContentListener` drops the record when the user removes
-  a GhostMaps file in the Overlay Manager (and deletes the file); records
-  whose file is gone are dropped; a recorded file that ATAK no longer lists is
-  re-requested once the panel opens (self-heal).
-- Identity across reorganizations (`core/UpdateCheck`): an installed record
-  is matched to the listing by path, then identical blob SHA anywhere
-  (re-pointed in `installed.json`, no download), then same file name anywhere
-  (offered as an update), then same product anywhere (newest version
-  offered). Products come from file names, independent of folder: the date
-  ("October_27_2026", "August 11_2025", "Sep_30_2025", "August 24, 2026" or
-  yyyy-mm-dd) and a trailing version ("v2", "V2", "Export_1", "Export_v2")
-  are stripped, then case and punctuation are ignored. Newer = later date,
-  then higher version; dated beats undated; for a tie, the copy outside an
-  archive folder wins. Folders named `Archive`, `0_Archive` etc. (any level)
-  are left out of Latest.
+  `atak/tools/ghostmaps/diagnostics.txt`: the engine's records and their
+  state, the listing, and recent GhostMaps warnings from ATAK's log for its
+  own process. Nothing is sent anywhere.
 - The Android version code is pinned in `gradle.properties`
   (`takStaticVersion`, 1.0 = 10000); bump it with every release.
 
@@ -173,70 +233,79 @@ build of ATAK (see "Building it yourself").
 
 | Tab | Shows |
 |---|---|
-| Latest | Newest version of each product, newest first; archive left out |
+| Latest | Newest version of each product, newest first; archives left out |
 | Browse | The repository's folders (tap the yellow bar to go up) |
-| Installed | Files GhostMaps installed; ones with updates first |
+| Installed | Map layers and icon sets on this device; ones needing attention first |
 
 The filter box narrows any tab; every word must appear in the file's name or
 folder (`iran kinetic`, `spokane`, `border`).
 
-| Button | Meaning |
-|---|---|
-| Install | Download and import this file |
-| Update (amber) | A newer version exists, or this file changed on GitHub. Installs it, then removes the older one |
-| Installed (green) | Up to date. Tap to remove it |
-| 42% | Downloading. Tap to stop; tapping Install later resumes |
-| Retry | The last attempt failed; the reason is shown under the name |
+**Tap** a row to do its main action (Install, Update, View on map, Retry…).
+**Long-press** a row for everything else, including Remove. Removing always
+asks first.
 
-- Tap an installed file's row to fly the map to it (same as the Overlay
-  Manager).
+| Status | Meaning |
+|---|---|
+| On the map | Loaded. Tap to fly to it |
+| Installed in ATAK's icon sets | The icons are in the point dropper's icon list |
+| Not in ATAK's icon sets | The icon set was removed in ATAK; tap Add to ATAK |
+| Update available | A newer version exists, or the file changed on GitHub. Tap to update; the old version is removed once the new one is loaded |
+| Downloading 42% | Tap to stop; installing again later resumes |
+| ATAK is loading it… | Waiting for ATAK to confirm. Large files can take a minute |
+| Not on the map; tap Reload | The file is here but ATAK isn't showing it |
+| No longer on GitHub | Kept on your device. If a similar file exists, it's offered |
+| Already loaded from another source | The same map is on the device outside GhostMaps (typically DataSync) |
+| Failed: … | The reason, and a Retry button |
+| Installed by an earlier test build | From a pre-release GhostMaps, outside its folder. Forget clears the entry; the file is left alone |
+
+- Removing a layer in the Overlay Manager, or an icon set in ATAK's icon
+  settings, is fine; GhostMaps notices within a few seconds.
 - Installing an older version from Browse keeps whatever else is installed;
-  only Update removes older versions.
-- Removing a file in the Overlay Manager is fine; GhostMaps notices and shows
-  it as not installed.
-- "Also loaded from another source" means the same map is already on the
-  device outside GhostMaps (typically DataSync). Installing asks first, since
-  it would put a second copy on the map. GhostMaps never touches that copy.
+  only Update replaces.
 
 ## Updates and data use
 
 - The list is checked when you open the panel (at most every 10 minutes) and
   when you tap refresh. Offline, the last saved list is shown with a note.
 - Sizes are shown on every row. Files of 10 MB or more, or 2 MB or more on
-  cellular/hotspot, ask first. The largest file today is the 2020 census
-  demographics layer at about 59 MB; most products are under 1 MB, and a
-  daily Common Intelligence Picture is about 3.4 MB.
-- GitHub allows 60 list checks per hour per network address (unchanged lists
-  don't count). If many devices share one connection and hit the limit, the
-  status line says when it resets and the saved list is used meanwhile.
+  cellular/hotspot, ask first. Most products are under 1 MB; a daily Common
+  Intelligence Picture is about 3.4 MB; the largest file is the 2020 census
+  demographics layer at about 59 MB.
+- If many devices share one connection and reach GitHub's hourly limit, the
+  status line says so and the saved list is used meanwhile.
 
 ## For the publisher: organizing the GhostMaps repository
 
 GhostMaps is built so the repository can be reorganized freely. What it
 relies on:
 
-- **A map's identity is its file name minus the date and version**, in any
-  folder. `Iran_Kinetic_Events_October_15_2026_v1.kmz` and
-  `Iran Kinetic Events_November_2_2026.kmz` are versions of one map, wherever
-  each lives. Keep that part of the name stable for a map, and don't reuse it
-  for a different map.
-- **New version** → add a file with the new date (or a higher `v2`/`Export_2`).
-  Users get Update; the old version is removed from their devices once the
-  new one is in.
+- **A product is its file name minus the date and version, within its
+  folder.** `Iran_Kinetic_Events_October_15_2026_v1.kmz` and
+  `Iran_Kinetic_Events_November_2_2026.kmz` in the same folder are versions of
+  one product. The same name in a different folder is a different product, so
+  two regions can each have a "Kinetic Events" layer.
+- **New version** → add a file with the new date (or a higher `v2`/`Export_2`)
+  in the same folder. Users get Update; the old version is removed from their
+  devices once the new one is in.
 - **Same file, new contents** (e.g. the 30-day pull) → commit over it with
   the same name. Users get Update.
-- **Moving, renaming folders, archiving** → do it any way you like. Unchanged
-  files are re-pointed on users' devices without a download. Anything under a
-  folder named `Archive` or `0_Archive` (at any level) drops out of Latest
-  but stays in Browse.
+- **Archiving** → move old versions into a folder whose name starts or ends
+  with "Archive" ("Archive", "0_Archive", "Archived Incidents",
+  "2025 Archive"), at any level. Archived files drop out of Latest, stay in
+  Browse, and are never offered as updates. An archive folder counts as part
+  of its parent for products, so `Iran/Archive/x.kmz` and `Iran/y.kmz` are
+  versions of one product.
+- **Moving files and renaming folders** → do it any way you like. Unchanged
+  files are re-pointed on users' devices without a download. If a product
+  moves *and* gets a new version in the same commit, users get Update.
 - **Deleting** → users who installed it keep it; it shows "no longer on
   GitHub" and they can remove it.
 - **Renaming the default branch** is handled. Keep the repository public and
   its name (`s2underground/GhostMaps`) unchanged; both are built into the
   plugin.
-- Supported file types: KMZ, KML, and other formats ATAK's Import Manager
-  takes (GPX, GeoJSON, GeoPackage, icon-set ZIPs…). Other files (PDFs, images)
-  aren't listed.
+- **File types**: `.kmz` and `.kml` map layers; `.zip` files of icon images
+  (PNG/JPG/GIF/BMP, in folders or not, optionally with an `iconset.xml`).
+  Other files (PDFs, images, data packages) aren't listed or are refused.
 
 ---
 
@@ -277,27 +346,43 @@ replaces regular ATAK and its data, since both use the same package name.
 
 ```
 app/src/main/java/com/atakmap/android/ghostmaps/plugin/
-├── GhostMapsPlugin.java     entry point: toolbar button, pane, finish toasts
-├── GhostMapsPane.java       tabs, filter, rows, Install/Update/Remove, dialogs
-├── GhostMapsManager.java    listing state, download queue, install/replace, device sync
-├── GitHubSource.java        GitHub tree API (cached, ETag, branch fallback); resumable, verified downloads
-├── Installer.java           in-place import into ATAK, removal, files loaded by other sources
-└── core/                    no Android code, unit-tested on a plain JVM
-    ├── RepoFile.java        one file in the repo (path, blob SHA, size)
-    ├── FileName.java        product / date / version from a file name
-    ├── TreeParser.java      GitHub tree JSON → importable files
-    ├── Catalog.java         products, newest versions, folders, filtering
-    ├── InstalledFile.java   one installed file
-    ├── InstalledStore.java  installed.json
-    ├── UpdateCheck.java     finds installed files after reorganizing; up to date / moved / changed / newer / removed
-    ├── LocalNames.java      on-device file names
-    ├── OtherSources.java    maps already loaded from DataSync etc., by map name
-    ├── GitBlobHasher.java   git blob SHA-1 while streaming
-    └── Formats.java         sizes, dates, folder names
-app/src/main/res/layout/     ghostmaps_pane.xml, ghostmaps_row.xml
-app/src/main/assets/plugin.xml registers GhostMapsPlugin with ATAK
-app/src/test/...             JUnit tests (48), incl. real repo listings before/after the Oct 28 reorganization
-docs/user_manual/            user manual source (Typst), built by TAK.gov's pipeline
+├── GhostMapsPlugin.java      entry point: wiring, toolbar button, toasts, diagnostics
+├── ui/
+│   ├── GhostMapsPane.java    views, tabs, filter, dialogs; renders RowBuilder rows
+│   ├── RowBuilder.java       snapshot → rows with status and actions (pure, tested)
+│   └── Diagnostics.java      writes diagnostics.txt
+├── engine/
+│   ├── GhostMapsEngine.java  records, job queue, install/update/remove, reconciliation
+│   ├── Snapshot.java         immutable state for the UI
+│   ├── Platform.java         the interface to ATAK
+│   ├── Tuning.java           all timing rules
+│   └── EngineLog.java        logging seam
+├── atak/
+│   ├── AtakPlatform.java     Platform on ATAK's APIs
+│   └── AtakEvents.java       ATAK file-list and icon-set events → engine
+├── net/
+│   ├── RepoSource.java       listing + download interface
+│   ├── RepoClient.java       GitHub: commit/ETag checks, tree, commit-pinned verified downloads
+│   └── CancelToken.java      prompt download cancellation
+└── core/                     no Android code
+    ├── RepoEntry.java        one published file: kind, product, scope folder, archive flag
+    ├── FileName.java         product / date / version from a file name
+    ├── FileKind.java         map layer or icon set
+    ├── TreeParser.java       GitHub tree JSON → entries
+    ├── Catalog.java          indexes, newest versions, folders, search
+    ├── UpdatePlanner.java    up to date / moved / changed / newer / superseded / gone
+    ├── InstallRecord.java    one install and its lifecycle state
+    ├── InstallStore.java     installed.json (atomic, backed up, migrates v1)
+    ├── AtomicTextFile.java   crash-safe file writes
+    ├── IconSetInspector.java checks icon-set ZIPs
+    ├── DeviceState.java      what ATAK has loaded
+    ├── OtherSources.java     maps loaded from DataSync etc.
+    ├── GitBlobHasher.java    git blob SHA-1
+    ├── LocalNames.java       on-device file names
+    ├── Formats.java          sizes, dates, folder names
+    └── Clock.java            injectable time
+app/src/test/...              JUnit tests (core, net with a fake GitHub server, engine with a simulated ATAK, ui)
+docs/user_manual/             user manual source (Typst), built by TAK.gov's pipeline
 ```
 
 ## Changelog
@@ -305,12 +390,17 @@ docs/user_manual/            user manual source (Typst), built by TAK.gov's pipe
 **1.0**
 - Targets ATAK-CIV 5.6.0 (5.6.0 plugin template).
 - Latest / Browse / Installed views of the GhostMaps repository with filter.
-- Install, update (replacing older versions), update all, remove, fly-to.
-- Resumable, SHA-verified downloads; offline use of the saved list.
-- Own folder (`atak/GhostMaps/`), in-place import; never touches DataSync's
+- Install, update (old version removed only after the new one loads), update
+  all, remove, reload, fly-to.
+- Icon sets installed through ATAK's icon-set manager.
+- Commit-pinned, resumable, SHA-verified downloads; offline use of the saved
+  list.
+- Own folder (`atak/GhostMaps/`), in-place loading; never touches DataSync's
   or other sources' files, and flags maps already loaded from them.
-- Installed files followed through folder renames, moves, archiving and file
-  renames; default-branch rename handled.
+- Installed files followed through moves, folder renames and archiving;
+  updates confined to the same product and folder; default-branch rename
+  handled.
+- Crash-safe install records with automatic recovery.
 
 ## Ideas for a next version
 

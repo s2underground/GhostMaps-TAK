@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Files ATAK has loaded that GhostMaps did not install (DataSync, the Import
- * Manager, a data package…), indexed by product so the panel can say "this
- * map is already on the device from another source". GhostMaps only reads
- * this; it never changes or removes those files.
+ * Map layers ATAK has loaded from outside GhostMaps' folder (DataSync, the
+ * Import Manager, data packages…), indexed by display name, so the panel can
+ * warn before adding a second copy. Information only: GhostMaps never
+ * changes or removes these files.
  */
 public final class OtherSources {
 
@@ -19,27 +19,24 @@ public final class OtherSources {
 
     private final Map<String, List<String>> byProduct = new HashMap<>();
 
-    /** @param localPaths absolute paths of files imported by other means */
-    public OtherSources(Collection<String> localPaths) {
-        for (String p : localPaths) {
-            String name = p.substring(p.lastIndexOf('/') + 1);
-            String key = RepoFile.productKey(FileName.parse(name).getProduct());
-            List<String> l = byProduct.get(key);
+    /** @param absolutePaths files loaded by other sources */
+    public OtherSources(Collection<String> absolutePaths) {
+        for (String p : absolutePaths) {
+            RepoEntry e = new RepoEntry(p.substring(p.lastIndexOf('/') + 1), "", 0);
+            if (e.kind() != FileKind.MAP_LAYER)
+                continue;
+            List<String> l = byProduct.get(e.looseProductKey());
             if (l == null) {
                 l = new ArrayList<>();
-                byProduct.put(key, l);
+                byProduct.put(e.looseProductKey(), l);
             }
             l.add(p);
         }
     }
 
-    /** Paths of other-source files that are a version of {@code f}'s product. */
-    public List<String> forProduct(RepoFile f) {
-        List<String> l = byProduct.get(f.productKey());
-        return l == null ? Collections.<String>emptyList() : l;
-    }
-
-    public boolean isEmpty() {
-        return byProduct.isEmpty();
+    /** Files from other sources that look like a version of {@code e}. */
+    public List<String> matching(RepoEntry e) {
+        List<String> l = byProduct.get(e.looseProductKey());
+        return l == null ? Collections.<String>emptyList() : Collections.unmodifiableList(l);
     }
 }

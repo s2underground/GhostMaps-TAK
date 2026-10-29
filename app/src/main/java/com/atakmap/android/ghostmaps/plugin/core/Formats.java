@@ -2,7 +2,7 @@ package com.atakmap.android.ghostmaps.plugin.core;
 
 import java.util.Locale;
 
-/** Display helpers shared by the pane; locale-independent so tests are stable. */
+/** Display helpers; locale-independent so tests are stable. */
 public final class Formats {
 
     private static final String[] MONTHS = {
@@ -13,7 +13,7 @@ public final class Formats {
     private Formats() {
     }
 
-    /** "850 KB", "3.4 MB", "62 MB" ("?" when unknown). */
+    /** "850 KB", "3.4 MB", "62 MB"; "?" when unknown. */
     public static String size(long bytes) {
         if (bytes < 0)
             return "?";
@@ -30,7 +30,7 @@ public final class Formats {
         return String.format(Locale.US, "%.1f GB", mb / 1024.0);
     }
 
-    /** yyyymmdd → "Oct 27, 2026"; "" for 0. */
+    /** yyyymmdd → "Oct 27, 2026"; yyyymm00 → "Oct 2026"; "" for 0. */
     public static String date(int yyyymmdd) {
         if (yyyymmdd <= 0)
             return "";
@@ -39,20 +39,29 @@ public final class Formats {
         int d = yyyymmdd % 100;
         if (m < 1 || m > 12)
             return "";
-        return MONTHS[m - 1] + " " + d + ", " + y;
+        return d == 0 ? MONTHS[m - 1] + " " + y : MONTHS[m - 1] + " " + d + ", " + y;
+    }
+
+    /** "Oct 10, 2026 · v2" (no size); "" when the name has neither. */
+    public static String version(FileName n) {
+        StringBuilder sb = new StringBuilder(date(n.getDate()));
+        if (n.getVersion() >= 2) {
+            if (sb.length() > 0)
+                sb.append(" · ");
+            sb.append('v').append(n.getVersion());
+        }
+        return sb.toString();
     }
 
     /**
-     * Folder path for display: top-level parentheticals dropped and levels
-     * joined with " › ", e.g. "ArcGIS Data for ATAK (KMZs)/Common Intelligence
-     * Picture" → "ArcGIS Data for ATAK › Common Intelligence Picture".
+     * Folder path for display: trailing parentheticals dropped, levels joined
+     * with " › ", e.g. "ArcGIS Data for ATAK (KMZs)/CIP" → "ArcGIS Data for ATAK › CIP".
      */
     public static String folder(String path) {
         if (path == null || path.isEmpty())
             return "";
-        String[] segs = path.split("/");
         StringBuilder sb = new StringBuilder();
-        for (String s : segs) {
+        for (String s : path.split("/")) {
             String t = s.replaceAll("\\s*\\([^)]*\\)\\s*$", "").trim();
             if (t.isEmpty())
                 t = s;
@@ -63,26 +72,15 @@ public final class Formats {
         return sb.toString();
     }
 
-    /** Last folder level, cleaned like {@link #folder}. */
+    /** Last level of {@link #folder}. */
     public static String folderName(String path) {
         String f = folder(path);
         int i = f.lastIndexOf(" › ");
         return i < 0 ? f : f.substring(i + 3);
     }
 
-    /** File name for display: extension kept, underscores shown as spaces. */
+    /** File name for display: underscores shown as spaces. */
     public static String fileName(String name) {
         return name.replace('_', ' ');
-    }
-
-    /** "Oct 27, 2026 · v2" style detail for a file name (no size). */
-    public static String version(FileName n) {
-        StringBuilder sb = new StringBuilder(date(n.getDate()));
-        if (n.getVersion() >= 2) {
-            if (sb.length() > 0)
-                sb.append(" · ");
-            sb.append("v").append(n.getVersion());
-        }
-        return sb.toString();
     }
 }

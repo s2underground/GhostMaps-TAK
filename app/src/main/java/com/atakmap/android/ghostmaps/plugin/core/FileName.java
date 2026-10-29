@@ -1,43 +1,67 @@
 package com.atakmap.android.ghostmaps.plugin.core;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Splits a GhostMaps file name into product name, date and version.
+ * Splits a published file name into a display name, a date and a version.
  *
- * <p>The repo's files are named like
- * {@code S2Underground_Common_Intelligence_Picture_October_27_2026_Export_1.kmz},
- * {@code Iran_Kinetic_Events_October_10_2026_v2.kmz},
- * {@code DC Curfew Zone_August 11_2025.kmz},
- * {@code Reno Wildfires August 24, 2026.kmz} or
- * {@code Persian Gulf Critical Infrastructure v5.kmz}. Underscores count as
- * spaces; the first "Month Day Year" (or ISO yyyy-mm-dd) is the date; a
- * trailing "v2", "V2" or "Export 2" is the version. What's left is the
- * product name.</p>
+ * <p>Used for display and for ordering versions of one product. It never
+ * decides on its own that two files are the same map; see
+ * {@link RepoEntry#groupKey()} for how products are scoped.</p>
+ *
+ * <p>Recognized dates (underscores count as spaces, case-insensitive):
+ * {@code October_27_2026}, {@code Oct 27, 2026}, {@code August 8th 2026},
+ * {@code 27 October 2026}, {@code 27OCT2026}, {@code 2026-10-27},
+ * {@code 2026_10_27}, {@code 10-27-2026}, {@code 20261027} and month-year
+ * forms such as {@code July_2025}. Dates must exist on the calendar. When a
+ * name holds several dates (a range), the latest one is the file's date and
+ * all are removed from the display name.</p>
+ *
+ * <p>Recognized versions: a trailing {@code v2} / {@code V2}, and a trailing
+ * {@code Export 1} / {@code Export v2} when it follows a date (ArcGIS export
+ * naming). A copy suffix such as {@code (1)} is ignored.</p>
  */
 public final class FileName {
 
-    private static final String MONTHS =
+    private static final String MONTH =
             "(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?"
                     + "|aug(?:ust)?|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?"
                     + "|dec(?:ember)?)";
 
-    private static final Pattern MDY = Pattern.compile(
-            "\\b" + MONTHS + "\\.?\\s+(\\d{1,2}),?\\s+(\\d{4})\\b",
-            Pattern.CASE_INSENSITIVE);
+    /** Ordered: specific patterns first so their spans aren't claimed by looser ones. */
+    private static final Pattern[] DATE_PATTERNS = {
+            // Month D, YYYY  /  Month Dth YYYY
+            Pattern.compile("\\b" + MONTH + "\\.?\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s+(\\d{4})\\b",
+                    Pattern.CASE_INSENSITIVE),
+            // D Month YYYY
+            Pattern.compile("\\b(\\d{1,2})(?:st|nd|rd|th)?\\s+" + MONTH + "\\.?,?\\s+(\\d{4})\\b",
+                    Pattern.CASE_INSENSITIVE),
+            // 27OCT2026
+            Pattern.compile("\\b(\\d{1,2})" + MONTH + "(\\d{4})\\b", Pattern.CASE_INSENSITIVE),
+            // 2026-10-27, 2026 10 27 (underscores were turned into spaces)
+            Pattern.compile("\\b((?:19|20)\\d{2})[-. ](\\d{1,2})[-. ](\\d{1,2})\\b"),
+            // 10-27-2026, 10/27/2026 (US order)
+            Pattern.compile("\\b(\\d{1,2})[-/.](\\d{1,2})[-/.]((?:19|20)\\d{2})\\b"),
+            // 20261027
+            Pattern.compile("\\b((?:19|20)\\d{2})(\\d{2})(\\d{2})\\b"),
+            // Month YYYY (no day)
+            Pattern.compile("\\b" + MONTH + "\\.?,?\\s+(\\d{4})\\b", Pattern.CASE_INSENSITIVE),
+    };
 
-    private static final Pattern ISO = Pattern.compile(
-            "\\b(\\d{4})-(\\d{2})-(\\d{2})\\b");
-
-    private static final Pattern VERSION = Pattern.compile(
-            "\\s*\\b(?:export\\s*|v)(\\d{1,3})\\s*$",
-            Pattern.CASE_INSENSITIVE);
+    private static final Pattern COPY_SUFFIX = Pattern.compile(
+            "\\s*(?:\\(\\d{1,3}\\)|-\\s*copy(?:\\s*\\d+)?)\\s*$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern V_VERSION = Pattern.compile(
+            "\\s+v(\\d{1,3})\\s*$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern EXPORT_VERSION = Pattern.compile(
+            "\\s+export\\s*(?:v\\s*)?(\\d{1,3})?\\s*$", Pattern.CASE_INSENSITIVE);
 
     private final String product;
-    private final int date; // yyyymmdd, 0 when the name has no date
-    private final int version; // 0 when the name has no version
+    private final int date; // yyyymmdd; dd = 00 for month-year names; 0 = no date
+    private final int version; // 0 = no version
 
     private FileName(String product, int date, int version) {
         this.product = product;
@@ -45,12 +69,12 @@ public final class FileName {
         this.version = version;
     }
 
-    /** Name with date and version removed, separators tidied. Never empty. */
+    /** Name with dates, version and copy suffix removed. Never empty. */
     public String getProduct() {
         return product;
     }
 
-    /** Date as yyyymmdd, or 0 if the name has none. */
+    /** yyyymmdd (day 00 for month-year names), or 0 when the name has no date. */
     public int getDate() {
         return date;
     }
@@ -64,15 +88,13 @@ public final class FileName {
     }
 
     /**
-     * Orders versions of one product: dated after undated, then by date, then
-     * by version number. Returns negative when {@code this} is older.
+     * Orders versions of one product: by date, then version number. Negative
+     * when {@code this} is older. Only meaningful within one product group.
      */
     public int compareAge(FileName other) {
         if (date != other.date)
             return date < other.date ? -1 : 1;
-        if (version != other.version)
-            return version < other.version ? -1 : 1;
-        return 0;
+        return Integer.compare(version, other.version);
     }
 
     public static FileName parse(String fileName) {
@@ -80,60 +102,90 @@ public final class FileName {
         int dot = stem.lastIndexOf('.');
         if (dot > 0)
             stem = stem.substring(0, dot);
-        String text = tidy(stem.replace('_', ' '));
+        String fallback = tidy(stem.replace('_', ' '));
+        String text = COPY_SUFFIX.matcher(fallback).replaceFirst("");
 
-        int date = 0;
-        Matcher m = MDY.matcher(text);
-        if (m.find()) {
-            int month = monthNumber(m.group(1));
-            int day = Integer.parseInt(m.group(2));
-            int year = Integer.parseInt(m.group(3));
-            if (valid(year, month, day)) {
-                date = year * 10000 + month * 100 + day;
-                text = text.substring(0, m.start()) + " " + text.substring(m.end());
-            }
-        } else {
-            m = ISO.matcher(text);
-            if (m.find()) {
-                int year = Integer.parseInt(m.group(1));
-                int month = Integer.parseInt(m.group(2));
-                int day = Integer.parseInt(m.group(3));
-                if (valid(year, month, day)) {
-                    date = year * 10000 + month * 100 + day;
-                    text = text.substring(0, m.start()) + " " + text.substring(m.end());
+        // find every date; remember spans so they can be cut out
+        int best = 0;
+        StringBuilder work = new StringBuilder(text);
+        for (Pattern p : DATE_PATTERNS) {
+            Matcher m = p.matcher(work);
+            List<int[]> spans = new ArrayList<>();
+            while (m.find()) {
+                int d = toDate(p, m);
+                if (d != 0) {
+                    best = Math.max(best, d);
+                    spans.add(new int[] { m.start(), m.end() });
                 }
             }
+            // blank the spans (keep indices stable for the next pattern)
+            for (int[] s : spans)
+                for (int i = s[0]; i < s[1]; i++)
+                    work.setCharAt(i, ' ');
         }
+        text = tidy(work.toString());
 
-        text = tidy(text);
         int version = 0;
-        m = VERSION.matcher(text);
-        if (m.find() && m.start() > 0) {
-            version = Integer.parseInt(m.group(1));
-            text = text.substring(0, m.start());
+        Matcher e = best != 0 ? EXPORT_VERSION.matcher(text) : null;
+        if (e != null && e.find() && e.start() > 0) {
+            // "…_Export_1", "…_Export_v2", "…_Export" after a date (ArcGIS exports)
+            version = e.group(1) == null ? 0 : Integer.parseInt(e.group(1));
+            text = text.substring(0, e.start());
+        } else {
+            Matcher v = V_VERSION.matcher(text);
+            if (v.find() && v.start() > 0) {
+                version = Integer.parseInt(v.group(1));
+                text = text.substring(0, v.start());
+            }
         }
 
-        String product = tidy(text);
-        // "…_August_17_2026_Export_v1": the bare "Export" left behind is
-        // part of the version label, not the product name
-        if (version > 0 || date != 0)
-            product = product.replaceAll("(?i)\\s+export$", "");
-        // drop separators left dangling where the date was cut out
-        product = product.replaceAll("^[\\s,\\-–]+|[\\s,\\-–]+$", "");
+        String product = tidy(text).replaceAll("^[\\s,\\-–]+|[\\s,\\-–]+$", "");
         if (product.isEmpty())
-            product = tidy(stem.replace('_', ' '));
-        return new FileName(product, date, version);
+            product = fallback.isEmpty() ? "?" : fallback;
+        return new FileName(product, best, version);
     }
 
-    private static String tidy(String s) {
-        return s.replaceAll("\\s+", " ").trim();
+    /** Converts one match to yyyymmdd, or 0 if it isn't a real calendar date. */
+    private static int toDate(Pattern p, Matcher m) {
+        int y, mo, d;
+        if (p == DATE_PATTERNS[0]) {
+            mo = month(m.group(1));
+            d = Integer.parseInt(m.group(2));
+            y = Integer.parseInt(m.group(3));
+        } else if (p == DATE_PATTERNS[1]) {
+            d = Integer.parseInt(m.group(1));
+            mo = month(m.group(2));
+            y = Integer.parseInt(m.group(3));
+        } else if (p == DATE_PATTERNS[2]) {
+            d = Integer.parseInt(m.group(1));
+            mo = month(m.group(2));
+            y = Integer.parseInt(m.group(3));
+        } else if (p == DATE_PATTERNS[3] || p == DATE_PATTERNS[5]) {
+            y = Integer.parseInt(m.group(1));
+            mo = Integer.parseInt(m.group(2));
+            d = Integer.parseInt(m.group(3));
+        } else if (p == DATE_PATTERNS[4]) {
+            mo = Integer.parseInt(m.group(1));
+            d = Integer.parseInt(m.group(2));
+            y = Integer.parseInt(m.group(3));
+        } else {
+            mo = month(m.group(1));
+            y = Integer.parseInt(m.group(2));
+            return y >= 1990 && y <= 2100 && mo >= 1 ? y * 10000 + mo * 100 : 0;
+        }
+        return isRealDate(y, mo, d) ? y * 10000 + mo * 100 + d : 0;
     }
 
-    private static boolean valid(int y, int m, int d) {
-        return y >= 1990 && y <= 2100 && m >= 1 && m <= 12 && d >= 1 && d <= 31;
+    static boolean isRealDate(int y, int m, int d) {
+        if (y < 1990 || y > 2100 || m < 1 || m > 12 || d < 1)
+            return false;
+        int[] days = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+        boolean leap = (y % 4 == 0 && y % 100 != 0) || y % 400 == 0;
+        int max = (m == 2 && leap) ? 29 : days[m - 1];
+        return d <= max;
     }
 
-    private static int monthNumber(String name) {
+    private static int month(String name) {
         String n = name.toLowerCase(Locale.US);
         String[] prefixes = {
                 "jan", "feb", "mar", "apr", "may", "jun",
@@ -143,5 +195,9 @@ public final class FileName {
             if (n.startsWith(prefixes[i]))
                 return i + 1;
         return 0;
+    }
+
+    private static String tidy(String s) {
+        return s.replaceAll("\\s+", " ").trim();
     }
 }

@@ -11,137 +11,146 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * The repository listing, organized two ways: by product (all dated
- * versions of one map grouped, newest first, regardless of which folders
- * they're in) and by folder for browsing. Immutable once built.
+ * Immutable view of one published repository state (one commit): every
+ * installable file, indexed by path, content SHA, file name and product
+ * group. Safe to share between threads.
  */
 public final class Catalog {
 
-    /**
-     * Newest first; undated files after dated ones; for equal age, files
-     * outside archive folders first, then by path.
-     */
-    public static final Comparator<RepoFile> NEWEST_FIRST = new Comparator<RepoFile>() {
+    /** Newest first; on equal age, files outside archives first, then by path. */
+    public static final Comparator<RepoEntry> NEWEST_FIRST = new Comparator<RepoEntry>() {
         @Override
-        public int compare(RepoFile a, RepoFile b) {
-            int c = b.parsed().compareAge(a.parsed());
+        public int compare(RepoEntry a, RepoEntry b) {
+            int c = b.name().compareAge(a.name());
             if (c != 0)
                 return c;
             if (a.isArchived() != b.isArchived())
                 return a.isArchived() ? 1 : -1;
-            return a.getPath().compareToIgnoreCase(b.getPath());
+            return a.path().compareToIgnoreCase(b.path());
         }
     };
 
-    private final List<RepoFile> files;
-    private final Map<String, RepoFile> byPath = new HashMap<>();
-    private final Map<String, List<RepoFile>> byProduct = new LinkedHashMap<>();
-    private final Map<String, List<RepoFile>> bySha = new HashMap<>();
-    private final Map<String, List<RepoFile>> byName = new HashMap<>();
+    private final String commitSha;
+    private final List<RepoEntry> entries;
+    private final Map<String, RepoEntry> byPath = new HashMap<>();
+    private final Map<String, List<RepoEntry>> bySha = new HashMap<>();
+    private final Map<String, List<RepoEntry>> byName = new HashMap<>();
+    private final Map<String, List<RepoEntry>> byGroup = new LinkedHashMap<>();
+    private final Map<String, List<RepoEntry>> byLooseProduct = new HashMap<>();
 
-    public Catalog(List<RepoFile> files) {
-        this.files = Collections.unmodifiableList(new ArrayList<>(files));
-        for (RepoFile f : this.files) {
-            byPath.put(f.getPath(), f);
-            add(byProduct, f.productKey(), f);
-            add(bySha, f.getSha(), f);
-            add(byName, f.fileName().toLowerCase(Locale.US), f);
+    public Catalog(String commitSha, List<RepoEntry> entries) {
+        this.commitSha = commitSha == null ? "" : commitSha;
+        List<RepoEntry> sorted = new ArrayList<>(entries);
+        Collections.sort(sorted, NEWEST_FIRST);
+        this.entries = Collections.unmodifiableList(sorted);
+        for (RepoEntry e : this.entries) {
+            byPath.put(e.path(), e);
+            add(bySha, e.sha(), e);
+            add(byName, e.fileName().toLowerCase(Locale.US), e);
+            add(byGroup, e.groupKey(), e);
+            add(byLooseProduct, e.looseProductKey(), e);
         }
-        for (List<RepoFile> versions : byProduct.values())
-            Collections.sort(versions, NEWEST_FIRST);
-        for (List<RepoFile> same : bySha.values())
-            Collections.sort(same, NEWEST_FIRST);
-        for (List<RepoFile> same : byName.values())
-            Collections.sort(same, NEWEST_FIRST);
+        // lists inherit NEWEST_FIRST order from the sorted entries
     }
 
-    private static void add(Map<String, List<RepoFile>> map, String key, RepoFile f) {
-        List<RepoFile> l = map.get(key);
+    private static void add(Map<String, List<RepoEntry>> m, String k, RepoEntry e) {
+        List<RepoEntry> l = m.get(k);
         if (l == null) {
-            l = new ArrayList<>();
-            map.put(key, l);
+            l = new ArrayList<>(2);
+            m.put(k, l);
         }
-        l.add(f);
+        l.add(e);
     }
 
-    public List<RepoFile> getFiles() {
-        return files;
+    private static List<RepoEntry> get(Map<String, List<RepoEntry>> m, String k) {
+        List<RepoEntry> l = m.get(k);
+        return l == null ? Collections.<RepoEntry>emptyList() : Collections.unmodifiableList(l);
+    }
+
+    /** Commit the listing describes; downloads are pinned to it. */
+    public String commitSha() {
+        return commitSha;
+    }
+
+    /** All entries, newest first. */
+    public List<RepoEntry> entries() {
+        return entries;
     }
 
     public int size() {
-        return files.size();
+        return entries.size();
     }
 
-    public RepoFile find(String path) {
+    public RepoEntry find(String path) {
         return byPath.get(path);
     }
 
-    /** Files with exactly these contents (same git blob SHA), anywhere in the repo. */
-    public List<RepoFile> findBySha(String sha) {
-        List<RepoFile> l = bySha.get(sha == null ? "" : sha.toLowerCase(Locale.US));
-        return l == null ? Collections.<RepoFile>emptyList() : l;
+    /** Entries with exactly these contents, newest first. */
+    public List<RepoEntry> findBySha(String sha) {
+        return get(bySha, sha == null ? "" : sha.toLowerCase(Locale.US));
     }
 
-    /** Files with this file name (case-insensitive), anywhere in the repo. */
-    public List<RepoFile> findByName(String fileName) {
-        List<RepoFile> l = byName.get(fileName.toLowerCase(Locale.US));
-        return l == null ? Collections.<RepoFile>emptyList() : l;
+    /** Entries with this file name (case-insensitive), newest first. */
+    public List<RepoEntry> findByFileName(String fileName) {
+        return get(byName, fileName.toLowerCase(Locale.US));
     }
 
-    /** All versions of a product (see {@link RepoFile#productKey()}), newest first. */
-    public List<RepoFile> versionsOf(String productKey) {
-        List<RepoFile> v = byProduct.get(productKey);
-        return v == null ? Collections.<RepoFile>emptyList() : v;
+    /** All versions in a product group, newest first, archived ones included. */
+    public List<RepoEntry> group(String groupKey) {
+        return get(byGroup, groupKey);
     }
 
-    /** All versions of the product {@code f} belongs to, newest first. */
-    public List<RepoFile> versionsOf(RepoFile f) {
-        List<RepoFile> v = byProduct.get(f.productKey());
-        return v == null ? Collections.singletonList(f) : v;
+    /** All versions of {@code e}'s product, newest first. */
+    public List<RepoEntry> versionsOf(RepoEntry e) {
+        List<RepoEntry> l = group(e.groupKey());
+        return l.isEmpty() ? Collections.singletonList(e) : l;
     }
 
-    /** Newest version of the product {@code f} belongs to. */
-    public RepoFile latestOf(RepoFile f) {
-        return versionsOf(f).get(0);
+    /** Newest version outside archive folders in a group, or null if all are archived. */
+    public RepoEntry newestLive(String groupKey) {
+        for (RepoEntry e : group(groupKey))
+            if (!e.isArchived())
+                return e;
+        return null;
+    }
+
+    /** Same display name and kind in any folder; for suggestions only. */
+    public List<RepoEntry> looselyRelated(String looseProductKey) {
+        return get(byLooseProduct, looseProductKey);
     }
 
     /**
-     * Newest version of each product whose newest version is outside the
-     * archive, newest first, optionally filtered: every word of
-     * {@code filter} must appear in the file's path (case-insensitive).
+     * The newest live version of every product that has one, newest first.
+     * Every word of {@code filter} must appear in the path.
      */
-    public List<RepoFile> latest(String filter) {
+    public List<RepoEntry> latest(String filter) {
         String[] words = words(filter);
-        List<RepoFile> out = new ArrayList<>();
-        for (List<RepoFile> versions : byProduct.values()) {
-            RepoFile newest = versions.get(0);
-            if (!newest.isArchived() && matches(newest, words))
+        List<RepoEntry> out = new ArrayList<>();
+        for (String key : byGroup.keySet()) {
+            RepoEntry newest = newestLive(key);
+            if (newest != null && matches(newest, words))
                 out.add(newest);
         }
         Collections.sort(out, NEWEST_FIRST);
         return out;
     }
 
-    /** All files matching {@code filter} (see {@link #latest}), newest first. */
-    public List<RepoFile> search(String filter) {
+    /** All entries matching {@code filter}, newest first. */
+    public List<RepoEntry> search(String filter) {
         String[] words = words(filter);
-        List<RepoFile> out = new ArrayList<>();
-        for (RepoFile f : files)
-            if (matches(f, words))
-                out.add(f);
-        Collections.sort(out, NEWEST_FIRST);
+        List<RepoEntry> out = new ArrayList<>();
+        for (RepoEntry e : entries)
+            if (matches(e, words))
+                out.add(e);
         return out;
     }
 
-    /**
-     * Direct sub-folders of {@code folder} ("" for the repo root) with the
-     * number of files under each, sorted by name.
-     */
+    /** Direct sub-folders of {@code folder} ("" = root) with file counts under each. */
     public Map<String, Integer> subfolders(String folder) {
         String prefix = folder.isEmpty() ? "" : folder + "/";
         Map<String, Integer> out = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-        for (RepoFile f : files) {
-            String p = f.getPath();
+        for (RepoEntry e : entries) {
+            String p = e.path();
             if (!p.startsWith(prefix))
                 continue;
             String rest = p.substring(prefix.length());
@@ -155,37 +164,36 @@ public final class Catalog {
         return out;
     }
 
-    /** True if any file lives in or under {@code folder}. */
+    /** True if any entry lives in or under {@code folder}. */
     public boolean hasFolder(String folder) {
         if (folder.isEmpty())
             return true;
         String prefix = folder + "/";
-        for (RepoFile f : files)
-            if (f.getPath().startsWith(prefix))
+        for (RepoEntry e : entries)
+            if (e.path().startsWith(prefix))
                 return true;
         return false;
     }
 
-    /** Files directly inside {@code folder}, newest first. */
-    public List<RepoFile> filesIn(String folder) {
-        List<RepoFile> out = new ArrayList<>();
-        for (RepoFile f : files)
-            if (f.folder().equals(folder))
-                out.add(f);
-        Collections.sort(out, NEWEST_FIRST);
+    /** Entries directly inside {@code folder}, newest first. */
+    public List<RepoEntry> filesIn(String folder) {
+        List<RepoEntry> out = new ArrayList<>();
+        for (RepoEntry e : entries)
+            if (e.folder().equals(folder))
+                out.add(e);
         return out;
     }
 
-    private static String[] words(String filter) {
+    static String[] words(String filter) {
         if (filter == null || filter.trim().isEmpty())
             return new String[0];
         return filter.trim().toLowerCase(Locale.US).split("\\s+");
     }
 
-    private static boolean matches(RepoFile f, String[] words) {
+    static boolean matches(RepoEntry e, String[] words) {
         if (words.length == 0)
             return true;
-        String hay = f.getPath().replace('_', ' ').toLowerCase(Locale.US);
+        String hay = e.path().replace('_', ' ').toLowerCase(Locale.US);
         for (String w : words)
             if (!hay.contains(w))
                 return false;

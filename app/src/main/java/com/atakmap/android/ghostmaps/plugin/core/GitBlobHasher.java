@@ -1,15 +1,18 @@
 package com.atakmap.android.ghostmaps.plugin.core;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
 /**
- * Computes a file's git blob ID (SHA-1 of "blob &lt;size&gt;\0" + contents)
- * as it streams in, so a download can be checked against the SHA GitHub
- * listed for it. A mismatch means a damaged transfer or a file that changed
- * on GitHub mid-download.
+ * Computes a file's git blob ID (SHA-1 of "blob &lt;size&gt;\0" + contents),
+ * the same value GitHub lists for each file. Used to verify downloads and to
+ * recognize files on the device by content.
  */
 public final class GitBlobHasher {
 
@@ -36,7 +39,7 @@ public final class GitBlobHasher {
         return fed;
     }
 
-    /** Lower-case hex digest; only meaningful once exactly {@code size} bytes were fed. */
+    /** Lower-case hex digest. Call once, after exactly {@code size} bytes. */
     public String hex() {
         byte[] d = sha1.digest();
         StringBuilder sb = new StringBuilder(d.length * 2);
@@ -47,5 +50,17 @@ public final class GitBlobHasher {
 
     public boolean matches(String expectedSha) {
         return fed == expectedSize && hex().equalsIgnoreCase(expectedSha);
+    }
+
+    /** Git blob SHA-1 of a whole file. */
+    public static String of(File f) throws IOException {
+        GitBlobHasher h = new GitBlobHasher(f.length());
+        try (InputStream in = new FileInputStream(f)) {
+            byte[] buf = new byte[64 * 1024];
+            int n;
+            while ((n = in.read(buf)) > 0)
+                h.update(buf, 0, n);
+        }
+        return h.hex();
     }
 }

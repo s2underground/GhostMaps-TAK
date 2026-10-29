@@ -106,7 +106,7 @@
             android:paddingEnd="4dp"
             android:paddingStart="4dp"
             android:paddingTop="2dp"
-            android:textColor="#B0B0B0"
+            android:textColor="@color/text_secondary"
             android:textSize="13sp" />
 
         <Button
@@ -126,7 +126,7 @@
         android:id="@+id/breadcrumb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#22FFFFFF"
+        android:background="@color/crumb_background"
         android:drawablePadding="6dp"
         android:ellipsize="start"
         android:maxLines="2"
@@ -143,7 +143,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:divider="#33FFFFFF"
+        android:divider="@color/divider"
         android:dividerHeight="1dp"
         android:fastScrollEnabled="true" />
 

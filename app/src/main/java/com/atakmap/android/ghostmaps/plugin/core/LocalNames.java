@@ -3,16 +3,16 @@ package com.atakmap.android.ghostmaps.plugin.core;
 import java.util.Locale;
 import java.util.Set;
 
-/** Picks the on-device file name for a download. */
+/** Picks on-device file names. */
 public final class LocalNames {
 
     private LocalNames() {
     }
 
     /**
-     * {@code fileName}, or "name (2).kmz", "name (3).kmz" … if that name is
-     * taken. {@code takenLower} holds names in use, lower-cased. Characters
-     * Android file systems reject are replaced.
+     * {@code fileName} made safe for Android file systems, or
+     * "name (2).kmz", "name (3).kmz" … if that name is taken.
+     * {@code takenLower} holds names in use, lower-cased.
      */
     public static String unique(String fileName, Set<String> takenLower) {
         String clean = fileName.replaceAll("[\\\\/:*?\"<>|\\x00-\\x1f]", "_").trim();

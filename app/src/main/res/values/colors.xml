@@ -5,4 +5,15 @@
     <color name="darker_gray">#121212</color>
     <color name="heading_yellow">#dfb228</color>
 
+    <!-- GhostMaps row tones (status text always says the state too; color is a hint) -->
+    <color name="tone_normal">#A0A0A0</color>
+    <color name="tone_good">#5CC85C</color>
+    <color name="tone_attention">#F0A030</color>
+    <color name="tone_problem">#FF7070</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B0B0B0</color>
+    <color name="tab_inactive">#C8C8C8</color>
+    <color name="divider">#33FFFFFF</color>
+    <color name="crumb_background">#22FFFFFF</color>
+
 </resources>
