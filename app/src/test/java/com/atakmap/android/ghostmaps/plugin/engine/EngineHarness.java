@@ -13,7 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -157,17 +156,7 @@ final class EngineHarness {
     }
 
     static String blobSha(byte[] data) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
-            md.update(("blob " + data.length + "\0").getBytes(StandardCharsets.US_ASCII));
-            md.update(data);
-            StringBuilder sb = new StringBuilder();
-            for (byte b : md.digest())
-                sb.append(String.format(Locale.US, "%02x", b & 0xff));
-            return sb.toString();
-        } catch (Exception e) {
-            throw new AssertionError(e);
-        }
+        return com.atakmap.android.ghostmaps.plugin.core.GitBlobHasher.of(data);
     }
 
     static String canonical(File f) {

@@ -20,6 +20,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -27,8 +28,11 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.Random;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -78,6 +82,8 @@ public final class RepoClient implements RepoSource {
 
     private final String api;
     private final String raw;
+    /** The only places this client connects to: the API and raw-file origins it was built with. */
+    private final Set<String> allowedOrigins = new HashSet<>();
     private final String owner;
     private final String repo;
     private final String preferredBranch;
@@ -92,6 +98,12 @@ public final class RepoClient implements RepoSource {
             String preferredBranch, File dataDir, Clock clock, Sleeper sleeper) {
         this.api = apiBase;
         this.raw = rawBase;
+        try {
+            allowedOrigins.add(origin(new URL(apiBase)));
+            allowedOrigins.add(origin(new URL(rawBase)));
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException("bad base URL", e);
+        }
         this.owner = owner;
         this.repo = repo;
         this.preferredBranch = preferredBranch;
@@ -229,7 +241,7 @@ public final class RepoClient implements RepoSource {
         } else if (r.code == HttpURLConnection.HTTP_NOT_MODIFIED) {
             h.notModified = true;
         } else if (r.code == HttpURLConnection.HTTP_OK) {
-            String sha = r.body.trim().toLowerCase(java.util.Locale.US);
+            String sha = r.body.trim().toLowerCase(Locale.US);
             if (SHA.matcher(sha).matches()) {
                 h.sha = sha;
                 h.etag = r.etag;
@@ -280,6 +292,7 @@ public final class RepoClient implements RepoSource {
             if (etag != null)
                 c.setRequestProperty("If-None-Match", etag);
             r.code = c.getResponseCode();
+            requireAllowed(c.getURL()); // a redirect must not leave GitHub
             r.etag = c.getHeaderField("ETag");
             r.rateRemaining = c.getHeaderField("X-RateLimit-Remaining");
             r.rateReset = c.getHeaderField("X-RateLimit-Reset");
@@ -415,6 +428,7 @@ public final class RepoClient implements RepoSource {
                     throw new CancelledException();
                 throw new TransientException("Couldn't reach GitHub (" + describe(e) + ")", e);
             }
+            requireAllowed(c.getURL()); // a redirect must not leave GitHub
             boolean append;
             if (code == HttpURLConnection.HTTP_PARTIAL && have > 0) {
                 String range = c.getHeaderField("Content-Range");
@@ -506,14 +520,32 @@ public final class RepoClient implements RepoSource {
 
     // ================================================================= helpers
 
-    private static HttpURLConnection open(String url) throws IOException {
-        HttpURLConnection c = (HttpURLConnection) new URL(url).openConnection();
+    /**
+     * Opens a connection, but only to one of the two GitHub origins this
+     * client was configured with. Paths come from GitHub's file list, so they
+     * are percent-encoded and can never change the scheme, host or port.
+     */
+    private HttpURLConnection open(String url) throws IOException {
+        URL u = new URL(url);
+        requireAllowed(u);
+        HttpURLConnection c = (HttpURLConnection) u.openConnection();
         c.setConnectTimeout(CONNECT_TIMEOUT_MS);
         c.setReadTimeout(READ_TIMEOUT_MS);
         c.setRequestProperty("User-Agent", USER_AGENT);
         c.setInstanceFollowRedirects(true);
         c.setUseCaches(false);
         return c;
+    }
+
+    private void requireAllowed(URL u) throws IOException {
+        if (!allowedOrigins.contains(origin(u)))
+            throw new IOException("Refusing to connect outside GitHub (" + u.getHost() + ")");
+    }
+
+    private static String origin(URL u) {
+        int port = u.getPort() != -1 ? u.getPort() : u.getDefaultPort();
+        return u.getProtocol().toLowerCase(Locale.US) + "://"
+                + u.getHost().toLowerCase(Locale.US) + ":" + port;
     }
 
     private static String seg(String s) {

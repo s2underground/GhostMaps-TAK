@@ -153,7 +153,7 @@ public final class AtakPlatform implements Platform {
         // ATAK's rule for a ZIP without a usable iconset.xml (IconsMapAdapter.addIconset)
         String sha = HashingUtils.sha256sum(zip);
         if (sha == null || sha.isEmpty())
-            throw new IOException("couldn't hash " + zip.getName());
+            throw new IOException("couldn't read the icon set");
         return sha;
     }
 

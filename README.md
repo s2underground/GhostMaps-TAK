@@ -64,7 +64,8 @@ Outbound HTTPS (443) to:
   against its limit of 60 anonymous requests per hour per IP address.
 - `raw.githubusercontent.com`: the files themselves.
 
-No inbound ports. No data is sent anywhere except these requests.
+No inbound ports. No data is sent anywhere except these requests. The
+plugin refuses to connect anywhere else, including when a server redirects.
 
 _________________________________________________________________
 EQUIPMENT REQUIRED
@@ -215,7 +216,8 @@ core/     identity, parsing, planning and storage; no Android code
 
 ## Installing
 
-Download the APK for your ATAK version from this project's Releases page and
+Download the APK for your ATAK version from the Releases page
+(github.com/s2underground/GhostMaps-ATAK/releases) and
 open it on the device (or `adb install` it). Then open ATAK. It asks
 "Load plugin: GhostMaps?"; tap OK. If it doesn't ask, open the Plugins
 (Package Manager) screen from ATAK's menu, tap GhostMaps, then **Load**.

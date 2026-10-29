@@ -284,4 +284,19 @@ public class RepoClientTest {
         assertNull(l.notice);
         assertEquals(gh.commit, l.catalog.commitSha());
     }
+
+    @Test
+    public void redirectAwayFromGitHubIsRefused() throws Exception {
+        RepoClient c = client();
+        RepoEntry e = c.refresh().catalog.find(PATH);
+        gh.redirectRawElsewhere = true; // "localhost" is not the configured raw host
+        File dest = new File(tmp.getRoot(), "out.kmz");
+        try {
+            c.download(e, gh.commit, dest, null, new CancelToken());
+            fail();
+        } catch (IOException ex) {
+            assertTrue(ex.getMessage(), ex.getMessage().contains("outside GitHub"));
+        }
+        assertFalse(dest.exists());
+    }
 }

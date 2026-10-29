@@ -13,7 +13,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -44,6 +43,7 @@ final class FakeGitHub implements AutoCloseable {
     volatile boolean ignoreRange;
     volatile boolean wrongContentRange;
     volatile byte[] corruptBody; // serve these bytes instead (once)
+    volatile boolean redirectRawElsewhere; // 302 to the same server under another host name
 
     final AtomicInteger apiCalls = new AtomicInteger();
     final AtomicInteger treeCalls = new AtomicInteger();
@@ -93,13 +93,7 @@ final class FakeGitHub implements AutoCloseable {
     }
 
     static String blobSha(byte[] data) throws Exception {
-        MessageDigest md = MessageDigest.getInstance("SHA-1");
-        md.update(("blob " + data.length + "\0").getBytes(StandardCharsets.US_ASCII));
-        md.update(data);
-        StringBuilder sb = new StringBuilder();
-        for (byte b : md.digest())
-            sb.append(String.format(Locale.US, "%02x", b & 0xff));
-        return sb.toString();
+        return com.atakmap.android.ghostmaps.plugin.core.GitBlobHasher.of(data);
     }
 
     static byte[] bytes(int n, int seed) {
@@ -164,6 +158,11 @@ final class FakeGitHub implements AutoCloseable {
     }
 
     private Response raw(Request q) throws Exception {
+        if (redirectRawElsewhere && !"localhost".equals(hostOf(q))) {
+            Response r = new Response(302, null);
+            r.headers.put("Location", "http://localhost:" + server.getLocalPort() + q.path);
+            return r;
+        }
         if (raw500s > 0) {
             raw500s--;
             return new Response(500, "oops");
@@ -199,6 +198,11 @@ final class FakeGitHub implements AutoCloseable {
             rawCutAfter = -1;
         }
         return r;
+    }
+
+    private static String hostOf(Request q) {
+        String h = q.header("Host");
+        return h == null ? "" : h.replaceAll(":.*$", "");
     }
 
     // ------------------------------------------------------------ plumbing

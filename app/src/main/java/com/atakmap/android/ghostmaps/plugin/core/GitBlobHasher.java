@@ -13,6 +13,11 @@ import java.util.Locale;
  * Computes a file's git blob ID (SHA-1 of "blob &lt;size&gt;\0" + contents),
  * the same value GitHub lists for each file. Used to verify downloads and to
  * recognize files on the device by content.
+ *
+ * <p>SHA-1 is required here: it is how git names file contents, so it is the
+ * only checksum GitHub's file list provides. It detects corrupted or wrong
+ * downloads; authenticity comes from fetching the list and files over HTTPS
+ * from GitHub.</p>
  */
 public final class GitBlobHasher {
 
@@ -50,6 +55,13 @@ public final class GitBlobHasher {
 
     public boolean matches(String expectedSha) {
         return fed == expectedSize && hex().equalsIgnoreCase(expectedSha);
+    }
+
+    /** Git blob SHA-1 of some bytes. */
+    public static String of(byte[] data) {
+        GitBlobHasher h = new GitBlobHasher(data.length);
+        h.update(data, 0, data.length);
+        return h.hex();
     }
 
     /** Git blob SHA-1 of a whole file. */
