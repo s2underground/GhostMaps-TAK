@@ -414,4 +414,51 @@ public class RowBuilderTest {
         assertEquals(30, r.progress);
         assertFalse(r.menu.contains(Action.REPLACE));
     }
+
+    @Test
+    public void removeIsAVisibleSecondButtonNeverTheRowTap() {
+        S s = new S();
+        s.add(LITANI, Snapshot.Presence.ACTIVE);
+        s.add(ICONS, Snapshot.Presence.ACTIVE);
+        s.add(V1, Snapshot.Presence.ACTIVE); // has an update
+        Snapshot snap = s.snap();
+
+        Row map = installed(snap, LITANI);
+        assertEquals(Action.VIEW, map.primary);
+        assertEquals(Action.REMOVE, map.secondary);
+
+        Row icons = installed(snap, ICONS);
+        assertEquals(Action.NONE, icons.primary);
+        assertEquals(Action.REMOVE, icons.secondary);
+
+        Row update = installed(snap, V1);
+        assertEquals(Action.UPDATE, update.primary);
+        assertEquals(Action.REMOVE, update.secondary);
+
+        assertEquals(Action.REMOVE, entry(snap, LITANI).secondary); // Latest/Browse too
+        assertEquals(Action.NONE, entry(snap, Fixtures.e("X/New_Thing.kmz", "n")).secondary);
+    }
+
+    @Test
+    public void noSecondButtonWhereRemoveIsWrongOrAlreadyPrimary() {
+        S legacy = new S();
+        legacy.add(LITANI, Snapshot.Presence.UNMANAGED);
+        assertEquals(Action.NONE, installed(legacy.snap(), LITANI).secondary);
+
+        S both = new S();
+        both.add(V1, Snapshot.Presence.ACTIVE);
+        both.add(V2, Snapshot.Presence.ACTIVE);
+        Row superseded = installed(both.snap(), V1);
+        assertEquals(Action.REMOVE, superseded.primary);
+        assertEquals(Action.NONE, superseded.secondary);
+
+        S busy = new S();
+        busy.add(V2, Snapshot.Presence.LOADING);
+        busy.job(V2, Snapshot.JobPhase.WAITING, 100, null);
+        assertEquals(Action.NONE, installed(busy.snap(), V2).secondary);
+
+        S removing = new S();
+        removing.add(LITANI, Snapshot.Presence.REMOVING);
+        assertEquals(Action.NONE, installed(removing.snap(), LITANI).secondary);
+    }
 }

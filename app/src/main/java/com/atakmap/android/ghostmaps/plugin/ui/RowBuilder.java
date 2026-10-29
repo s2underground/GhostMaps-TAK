@@ -77,6 +77,12 @@ public final class RowBuilder {
         public final Action primary;
         /** False while the action can't be taken (e.g. installing). */
         public final boolean primaryEnabled;
+        /**
+         * A second visible button, for Remove (always confirmed by the pane);
+         * NONE hides it. Kept separate from the primary so tapping a row is
+         * never destructive.
+         */
+        public final Action secondary;
         /** Actions for the row's menu (long-press). */
         public final List<Action> menu;
         /** -1 none, -2 indeterminate, 0–100 percent. */
@@ -87,7 +93,7 @@ public final class RowBuilder {
         Row(RowType type, Section section, String folder, int count, RepoEntry entry,
                 Snapshot.RecordView record, Snapshot.JobView job, Status status, String statusArg,
                 RepoEntry suggestion, Tone tone, Action primary, boolean primaryEnabled,
-                List<Action> menu, int progress, boolean showFolder) {
+                Action secondary, List<Action> menu, int progress, boolean showFolder) {
             this.type = type;
             this.section = section;
             this.folder = folder;
@@ -101,6 +107,7 @@ public final class RowBuilder {
             this.tone = tone;
             this.primary = primary;
             this.primaryEnabled = primaryEnabled;
+            this.secondary = secondary;
             this.menu = Collections.unmodifiableList(menu);
             this.progress = progress;
             this.showFolder = showFolder;
@@ -394,18 +401,20 @@ public final class RowBuilder {
         List<Action> menu = new ArrayList<>(d.menu);
         if (d.primary != Action.NONE && d.enabled && !menu.contains(d.primary))
             menu.add(0, d.primary);
+        Action secondary = d.primary != Action.REMOVE && menu.contains(Action.REMOVE)
+                ? Action.REMOVE : Action.NONE;
         return new Row(type, section, null, count, e, rec, job, d.status, d.arg, d.suggestion,
-                d.tone, d.primary, d.enabled, menu, d.progress, showFolder);
+                d.tone, d.primary, d.enabled, secondary, menu, d.progress, showFolder);
     }
 
     private static Row simple(RowType type, String folder, int count) {
         return new Row(type, null, folder, count, null, null, null, Status.NONE, null, null,
-                Tone.NORMAL, Action.NONE, true, Collections.<Action>emptyList(), -1, false);
+                Tone.NORMAL, Action.NONE, true, Action.NONE, Collections.<Action>emptyList(), -1, false);
     }
 
     private static Row section(Section s) {
         return new Row(RowType.SECTION, s, null, 0, null, null, null, Status.NONE, null, null,
-                Tone.NORMAL, Action.NONE, true, Collections.<Action>emptyList(), -1, false);
+                Tone.NORMAL, Action.NONE, true, Action.NONE, Collections.<Action>emptyList(), -1, false);
     }
 
     /** "Oct 27, 2026" or "v5", else the file name. */

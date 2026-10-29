@@ -16,4 +16,13 @@
     <color name="divider">#33FFFFFF</color>
     <color name="crumb_background">#22FFFFFF</color>
 
+    <!-- row buttons -->
+    <color name="button_fill">#262626</color>
+    <color name="button_fill_pressed">#404040</color>
+    <color name="button_fill_disabled">#1A1A1A</color>
+    <color name="button_outline">#8C8C8C</color>
+    <color name="button_outline_disabled">#4A4A4A</color>
+    <color name="button_text_disabled">#9A9A9A</color>
+    <color name="button_text_remove">#FF8A80</color>
+
 </resources>

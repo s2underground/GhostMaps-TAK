@@ -36,9 +36,10 @@ Type in the filter box to narrow any tab (for example `iran`, `wildfire`,
 
 #tak-slide[
 = Installing and updating
-Each file shows its date, version and download size. *Tap* a row to do its
-main action: Install, Update, show it on the map, Retry. *Long-press* a row
-for everything else, including Remove (which always asks first).
+Each file shows its date, version and download size. The button on the
+right does its main action: Install, Update, Show (on the map), Retry.
+Installed files also have a *Remove* button, which always asks first.
+Long-press a row to see every option.
 
 - Map layers appear in Overlay Manager → File Overlays.
 - Icon sets (such as "S2U Map Icons") are added to ATAK's icon sets, so

@@ -62,18 +62,45 @@
             android:visibility="gone" />
     </LinearLayout>
 
-    <!-- not focusable, so tapping the rest of the row still works -->
-    <Button
-        android:id="@+id/row_action"
+    <!-- buttons are not focusable, so tapping the rest of the row still works;
+         stacked so the file name keeps its width on a phone -->
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:minWidth="76dp"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp"
-        android:textSize="13sp"
-        android:visibility="gone" />
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/row_action"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:background="@drawable/ghostmaps_button"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:minWidth="84dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/row_action2"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/ghostmaps_button"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:minWidth="84dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:textAllCaps="false"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    </LinearLayout>
 
 </LinearLayout>

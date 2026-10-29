@@ -240,9 +240,10 @@ build of ATAK (see "Building it yourself").
 The filter box narrows any tab; every word must appear in the file's name or
 folder (`iran kinetic`, `spokane`, `border`).
 
-**Tap** a row to do its main action (Install, Update, View on map, Retry…).
-**Long-press** a row for everything else, including Remove. Removing always
-asks first.
+Each row has a button for its main action (Install, Update, Show on map,
+Retry…); tapping the row does the same. Installed files also have a
+**Remove** button, which always asks first. Long-press a row for every
+option in one menu.
 
 | Status | Meaning |
 |---|---|

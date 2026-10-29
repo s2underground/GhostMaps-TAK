@@ -327,7 +327,8 @@ public final class GhostMapsPane implements GhostMapsEngine.Listener {
             default:
                 break;
         }
-        // tapping the row does the safe primary action; destructive ones need the menu
+        // tapping the row does the safe primary action; Remove has its own button and a
+        // confirmation, and long-press opens the full menu
         if (r.primaryEnabled && r.primary != RowBuilder.Action.NONE
                 && r.primary != RowBuilder.Action.REMOVE && r.primary != RowBuilder.Action.FORGET)
             perform(r, r.primary);
@@ -740,6 +741,7 @@ public final class GhostMapsPane implements GhostMapsEngine.Listener {
         TextView status;
         ProgressBar progress;
         Button action;
+        Button action2;
     }
 
     private final class Adapter extends BaseAdapter {
@@ -801,6 +803,7 @@ public final class GhostMapsPane implements GhostMapsEngine.Listener {
                 h.status = convertView.findViewById(R.id.row_status);
                 h.progress = convertView.findViewById(R.id.row_progress);
                 h.action = convertView.findViewById(R.id.row_action);
+                h.action2 = convertView.findViewById(R.id.row_action2);
                 convertView.setTag(h);
             } else {
                 h = (Holder) convertView.getTag();
@@ -814,6 +817,7 @@ public final class GhostMapsPane implements GhostMapsEngine.Listener {
         h.progress.setVisibility(View.GONE);
         h.status.setVisibility(View.GONE);
         h.action.setVisibility(View.GONE);
+        h.action2.setVisibility(View.GONE);
         switch (r.type) {
             case UP: {
                 String parent = r.folder.contains("/")
@@ -872,13 +876,29 @@ public final class GhostMapsPane implements GhostMapsEngine.Listener {
                     ? plugin.getString(R.string.act_installing) : actionLabel(r.primary, false);
             h.action.setText(label);
             h.action.setEnabled(r.primaryEnabled);
-            h.action.setTextColor(r.primary == RowBuilder.Action.UPDATE
-                    ? color(R.color.tone_attention) : color(R.color.text_primary));
+            h.action.setTextColor(!r.primaryEnabled ? color(R.color.button_text_disabled)
+                    : r.primary == RowBuilder.Action.UPDATE ? color(R.color.tone_attention)
+                    : r.primary == RowBuilder.Action.REMOVE ? color(R.color.button_text_remove)
+                    : color(R.color.text_primary));
             h.action.setContentDescription(label + ": " + h.title.getText());
             h.action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     perform(r, r.primary);
+                }
+            });
+        }
+        if (r.secondary != RowBuilder.Action.NONE) {
+            h.action2.setVisibility(View.VISIBLE);
+            String label2 = actionLabel(r.secondary, false);
+            h.action2.setText(label2);
+            h.action2.setTextColor(r.secondary == RowBuilder.Action.REMOVE
+                    ? color(R.color.button_text_remove) : color(R.color.text_primary));
+            h.action2.setContentDescription(label2 + ": " + h.title.getText());
+            h.action2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    perform(r, r.secondary);
                 }
             });
         }
