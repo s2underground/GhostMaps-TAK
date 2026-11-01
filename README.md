@@ -44,10 +44,20 @@ STATUS
 
 Version 1.0, for ATAK-CIV 5.6.0. Built with the 5.6.0 plugin template
 (Gradle 8.14.3, Android Gradle Plugin 8.13.0) against the ATAK-CIV 5.5.1.8
-SDK. 138 unit tests pass, including the repository's real Oct 28 and Oct 29
+SDK. 141 unit tests pass, including the repository's real Oct 28 and Oct 29
 reorganizations, a fake GitHub server for every network failure mode, and
 the install engine end to end against a simulated ATAK. Lint reports 0
-errors. Device testing in progress (ATAK 5.5.1 developer build).
+errors.
+
+Tested on devices:
+
+| Device | Android | ATAK | Result |
+|---|---|---|---|
+| Samsung Galaxy S23 (One UI 8.5) | 16 | ATAK-CIV 5.6.0 (Google Play) | Works: installed, loaded, all maps fetched and displayed ([#1](https://github.com/s2underground/GhostMaps-TAK/issues/1)) |
+| Developer tablet | | ATAK 5.5.1 developer build (test APKs) | Works |
+
+Tried it on another device? Reports are welcome as
+[issues](https://github.com/s2underground/GhostMaps-TAK/issues).
 
 _________________________________________________________________
 POINT OF CONTACTS
@@ -216,11 +226,19 @@ core/     identity, parsing, planning and storage; no Android code
 
 ## Installing
 
-Download the APK for your ATAK version from the Releases page
-(github.com/s2underground/GhostMaps-ATAK/releases) and
-open it on the device (or `adb install` it). Then open ATAK. It asks
-"Load plugin: GhostMaps?"; tap OK. If it doesn't ask, open the Plugins
-(Package Manager) screen from ATAK's menu, tap GhostMaps, then **Load**.
+Download the APK for your ATAK version from the
+[Releases page](https://github.com/s2underground/GhostMaps-TAK/releases) and
+open it on the device, for example from the Files / My Files app (or
+`adb install` it). Then open ATAK. It asks "Load plugin: GhostMaps?"; tap OK.
+If it doesn't ask, open the Plugins (Package Manager) screen from ATAK's
+menu, tap GhostMaps, then **Load**.
+
+**Samsung phones and tablets:** Auto Blocker stops apps being installed from
+outside the Galaxy Store and Play Store. If the APK won't install, turn it off
+temporarily under Settings → Security and privacy → Auto Blocker, install
+GhostMaps, then turn Auto Blocker back on. Android may also ask you to allow
+your Files app to install unknown apps; allow it for the install, then you
+can revoke it.
 
 The GhostMaps button (a ghost) sits with the other tools in ATAK's menu; add
 it to the main toolbar through ATAK's toolbar customization for one-tap
