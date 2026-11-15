@@ -54,6 +54,7 @@ Tested on devices:
 | Device | Android | ATAK | Result |
 |---|---|---|---|
 | Samsung Galaxy S23 (One UI 8.5) | 16 | ATAK-CIV 5.6.0 (Google Play) | Works: installed, loaded, all maps fetched and displayed ([#1](https://github.com/s2underground/GhostMaps-TAK/issues/1)) |
+| Samsung Galaxy S23 (One UI 8.5) | 16 | ATAK-CIV 5.8.0.9 (f1c70d5) | Works with the v1.0 release build (built for ATAK 5.6.0, installed from the release APK): installed, loaded and used on the device; no bugs found so far |
 | Developer tablet | | ATAK 5.5.1 developer build (test APKs) | Works |
 
 Tried it on another device? Reports are welcome as
